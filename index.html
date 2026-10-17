@@ -31,6 +31,7 @@ main > *:not(#painel-abas) { display:none !important; }
   <button class="tab-button" role="tab" aria-selected="true" onclick="mostrarAba('flamengo')">🔴⚫ Flamengo</button>
   <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('esportes')">⚽ Esportes</button>
   <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('noticias')">📰 Notícias</button>
+  <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('entretenimento')">🎬 Entretenimento</button>
  </div>
  <div id="aba-flamengo" class="tab-panel active"><div class="grid">
   <article class="card feature"><h3>🔴⚫ Flamengo no ge</h3><p>Últimas notícias, escalação, resultados e bastidores.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/">Abrir Flamengo no ge ↗</a></div></article>
@@ -52,6 +53,12 @@ main > *:not(#painel-abas) { display:none !important; }
   <article class="card feature"><h3>📰 G1</h3><p>Principais notícias do Brasil e do mundo.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/">Abrir G1 ↗</a></div></article>
   <article class="card"><h3>🌦️ Previsão do tempo</h3><p>Previsão para Angra dos Reis.</p><div class="links"><a class="btn primary" href="https://www.climatempo.com.br/previsao-do-tempo/15-dias/cidade/769/angradosreis-rj">Ver previsão ↗</a></div></article>
   <article class="card"><h3>🚌 Viação Senhor do Bonfim</h3><p>Linhas e horários de ônibus em Angra dos Reis.</p><div class="links"><a class="btn primary" href="https://onibus.online/empresas/viacao-senhor-do-bonfim/">Consultar horários ↗</a></div></article>
+ </div></div>
+ <div id="aba-entretenimento" class="tab-panel"><div class="grid">
+  <article class="card feature"><h3>🎬 Prime Video</h3><p>Filmes, séries e canais disponíveis no Prime Video.</p><div class="links"><a class="btn primary" href="https://www.primevideo.com/region/na/storefront">Abrir Prime Video ↗</a></div></article>
+  <article class="card"><h3>✨ Disney+</h3><p>Filmes, séries, animações e produções Disney.</p><div class="links"><a class="btn primary" href="https://www.disneyplus.com/pt-br/home">Abrir Disney+ ↗</a></div></article>
+  <article class="card"><h3>🍿 Netflix</h3><p>Explore filmes, séries e novidades do catálogo.</p><div class="links"><a class="btn primary" href="https://www.netflix.com/browse">Abrir Netflix ↗</a></div></article>
+  <article class="card"><h3>▶️ YouTube</h3><p>Vídeos, canais, música e transmissões ao vivo.</p><div class="links"><a class="btn primary" href="https://www.youtube.com/">Abrir YouTube ↗</a></div></article>
  </div></div>
 </section>
 <section><h2>📰 Acesso rápido às notícias</h2><p class="intro">Escolha uma fonte para abrir as notícias mais recentes diretamente no site original.</p><div class="grid">
@@ -83,7 +90,7 @@ main > *:not(#painel-abas) { display:none !important; }
  </div>
 </main>
 <script>const d=new Date();const fmt=new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});document.getElementById('today').textContent='Hoje: '+fmt.format(d).replace(/^./,c=>c.toLocaleUpperCase())+' · Links diretos para as fontes';
-function mostrarAba(nome){document.querySelectorAll('#painel-abas .tab-panel').forEach(p=>p.classList.toggle('active',p.id==='aba-'+nome));document.querySelectorAll('#painel-abas .tab-button').forEach((b,i)=>b.setAttribute('aria-selected',String(['flamengo','esportes','noticias'][i]===nome)));}
+function mostrarAba(nome){document.querySelectorAll('#painel-abas .tab-panel').forEach(p=>p.classList.toggle('active',p.id==='aba-'+nome));document.querySelectorAll('#painel-abas .tab-button').forEach(b=>b.setAttribute('aria-selected',String(b.getAttribute('onclick')===("mostrarAba('"+nome+"')"))));}
 </script>
 </body>
 </html>
