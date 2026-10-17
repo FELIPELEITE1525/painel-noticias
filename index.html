@@ -1,94 +1,44 @@
-
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Painel Diário de Notícias</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font:16px/1.5 Arial,sans-serif;background:#f3f4f6;color:#202124}
-header{background:#171717;color:white;padding:28px 18px;border-bottom:5px solid #c8102e}
-header,main{padding-left:max(18px,calc((100% - 1000px)/2));padding-right:max(18px,calc((100% - 1000px)/2))}
-h1{margin:0 0 8px;font-size:clamp(25px,5vw,38px)}
-header p{margin:0;color:#eee}
-main{padding-top:20px;padding-bottom:40px}
-h2{margin-top:28px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px}
-.card{background:white;border:1px solid #ddd;border-top:4px solid #c8102e;border-radius:12px;padding:18px}
-.card h3{margin:6px 0}
-.card p{color:#555}
-.tag{color:#c8102e;font-weight:bold;font-size:12px}
-a{display:inline-block;background:#c8102e;color:white;text-decoration:none;padding:10px 13px;border-radius:8px;font-weight:bold}
-a:hover{background:#900b20}
-footer{margin-top:30px;color:#666;font-size:13px}
-</style>
-</head>
+:root{color-scheme:light dark;--bg:light-dark(#f4f5f7,#101112);--surface:light-dark(#fff,#1b1d20);--text:light-dark(#191b1f,#f3f4f6);--muted:light-dark(#626a73,#a9b0b8);--line:light-dark(#dfe3e8,#35393e);--red:#c8102e}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif}.hero{background:#211318;color:white;padding:26px 18px;border-bottom:5px solid var(--red)}.inner,main{max-width:1050px;margin:auto}.eyebrow,.tag{color:#e21b3c;font-weight:800;font-size:.75rem;letter-spacing:.06em}.hero .eyebrow{color:#ffb9c4}h1{margin:6px 0;font-size:clamp(1.8rem,5vw,3rem)}.hero p{margin:0;color:#eee}.date{margin-top:14px;color:#ddd}main{padding:20px 16px 42px}h2{font-size:1.3rem;margin:28px 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:17px;min-width:0}.card h3{margin:7px 0;line-height:1.3}.card p{color:var(--muted);font-size:.94rem}.links{display:flex;gap:8px;flex-wrap:wrap}a{display:inline-block;background:var(--red);color:#fff;text-decoration:none;padding:9px 12px;border-radius:9px;font-weight:750;font-size:.9rem}.secondary{background:var(--surface);color:var(--text);border:1px solid var(--line)}.note{padding:12px;background:var(--surface);border-left:4px solid var(--red);color:var(--muted);margin-top:16px}.footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:18px;margin-top:28px}@media(max-width:680px){.grid{grid-template-columns:1fr}}
+</style></head>
 <body>
-<header>
-<h1>📰 Painel Diário de Notícias</h1>
-<p>Flamengo em primeiro lugar. As principais fontes do Brasil e do esporte.</p>
-<p id="data"></p>
-</header>
+<header class="hero"><div class="inner"><div class="eyebrow">SEU RESUMO DIÁRIO</div><h1>📰 Painel Diário de Notícias</h1><p>Flamengo em primeiro lugar. Manchetes recentes do G1, ge e análises de quem acompanha o Mengão.</p><div class="date" id="today">Carregando data…</div></div></header>
 <main>
-<h2>🔴⚫ Flamengo — prioridade máxima</h2>
+<h2>🔴⚫ Últimas notícias — Flamengo em destaque</h2>
+<div id="live-news" class="grid"><article class="card"><div class="tag">CARREGANDO</div><h3>Buscando as últimas manchetes…</h3><p>Aguarde alguns segundos.</p></article></div>
+<h2>🎙️ Análises e bastidores</h2>
 <div class="grid">
-<article class="card">
-<div class="tag">NOTÍCIAS DO FLAMENGO</div>
-<h3>Últimas notícias, escalações e bastidores</h3>
-<p>Acompanhe resultados, treinos, contratações, lesões e informações antes dos jogos.</p>
-<a href="https://ge.globo.com/futebol/times/flamengo/">Abrir notícias do Flamengo ↗</a>
-</article>
-<article class="card">
-<div class="tag">ANÁLISE E OPINIÃO</div>
-<h3>Mauro Cezar Pereira</h3>
-<p>Comentários e análises sobre o desempenho do time, treinador, elenco e diretoria.</p>
-<a href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/">Ler colunas ↗</a>
-</article>
-<article class="card">
-<div class="tag">BASTIDORES</div>
-<h3>Venê Casagrande</h3>
-<p>Informações e apurações sobre contratações, negociações e bastidores do Flamengo.</p>
-<a href="https://x.com/venecasagrande">Ver publicações ↗</a>
-</article>
-<article class="card">
-<div class="tag">FONTE OFICIAL</div>
-<h3>Clube de Regatas do Flamengo</h3>
-<p>Comunicados, notícias e informações oficiais do clube.</p>
-<a href="https://www.flamengo.com.br/noticias">Abrir site oficial ↗</a>
-</article>
+<article class="card"><div class="tag">ANÁLISE E OPINIÃO</div><h3>Mauro Cezar Pereira</h3><p>Comentários sobre desempenho, treinador, elenco e diretoria. Opiniões são identificadas como análises.</p><div class="links"><a href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/">Ler colunas ↗</a><a class="secondary" href="https://www.youtube.com/results?search_query=Mauro+Cezar+Pereira+Flamengo">Vídeos ↗</a></div></article>
+<article class="card"><div class="tag">BASTIDORES</div><h3>Venê Casagrande</h3><p>Informações sobre negociações, elenco e bastidores. Confira a publicação original e procure confirmação quando necessário.</p><div class="links"><a href="https://x.com/venecasagrande">Publicações ↗</a><a class="secondary" href="https://www.youtube.com/results?search_query=Ven%C3%AA+Casagrande+Flamengo">Vídeos ↗</a></div></article>
+<article class="card"><div class="tag">COBERTURA ESPORTIVA</div><h3>Flamengo no ge</h3><p>Resultados, escalações, lesões, treinos e mercado da bola.</p><a href="https://ge.globo.com/futebol/times/flamengo/">Últimas do ge ↗</a></article>
+<article class="card"><div class="tag">FONTE OFICIAL</div><h3>Clube de Regatas do Flamengo</h3><p>Comunicados e notícias oficiais do clube.</p><a href="https://www.flamengo.com.br/noticias/">Site oficial ↗</a></article>
 </div>
-
-<h2>🗞️ Brasil, mundo e economia</h2>
+<h2>🌎 Brasil, mundo e economia</h2>
 <div class="grid">
-<article class="card">
-<h3>G1 — notícias gerais</h3>
-<p>Política, economia, segurança, serviços e acontecimentos do Brasil.</p>
-<a href="https://g1.globo.com/">Abrir G1 ↗</a>
-</article>
-<article class="card">
-<h3>ge — esportes</h3>
-<p>Futebol brasileiro, campeonatos internacionais e outros esportes.</p>
-<a href="https://ge.globo.com/">Abrir ge ↗</a>
-</article>
-<article class="card">
-<h3>GloboNews</h3>
-<p>Reportagens, entrevistas e análises dos principais assuntos.</p>
-<a href="https://g1.globo.com/globonews/">Abrir GloboNews ↗</a>
-</article>
-<article class="card">
-<h3>G1 — economia</h3>
-<p>Informações sobre emprego, inflação, empresas e seu dinheiro.</p>
-<a href="https://g1.globo.com/economia/">Abrir economia ↗</a>
-</article>
+<article class="card"><h3>G1 — notícias gerais</h3><p>Política, segurança, serviços e acontecimentos do Brasil e do mundo.</p><a href="https://g1.globo.com/">Abrir G1 ↗</a></article>
+<article class="card"><h3>ge — esportes</h3><p>Futebol brasileiro, campeonatos internacionais e outros esportes.</p><a href="https://ge.globo.com/">Abrir ge ↗</a></article>
+<article class="card"><h3>G1 — economia</h3><p>Emprego, inflação, empresas e finanças pessoais.</p><a href="https://g1.globo.com/economia/">Economia ↗</a></article>
+<article class="card"><h3>GloboNews</h3><p>Reportagens, entrevistas e análises.</p><a href="https://g1.globo.com/globonews/">Abrir GloboNews ↗</a></article>
 </div>
-<footer>
-<p>Este painel reúne links para as fontes originais. As notícias são atualizadas nos sites de origem; confira a data e o contexto de cada publicação.</p>
-</footer>
+<div class="note"><strong>Nota:</strong> as manchetes são obtidas por uma busca automática e podem variar. Se o serviço de consulta falhar, os links das fontes continuam disponíveis. Confira data, autoria e contexto na publicação original.</div>
+<div class="footer">Painel informativo independente. Notícias, análises e opiniões pertencem às fontes originais.</div>
 </main>
 <script>
-document.getElementById('data').textContent =
-'Hoje: '+new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
-</script>
-</body>
-</html>
+const now=new Date();document.getElementById('today').textContent='Hoje: '+new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}).format(now);
+const box=document.getElementById('live-news');
+const feeds=[
+['FLAMENGO · GE E G1','https://news.google.com/rss/search?q=Flamengo+site%3Age.globo.com+OR+site%3Ag1.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'],
+['MAURO CEZAR PEREIRA','https://news.google.com/rss/search?q=Mauro+Cezar+Pereira+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'],
+['VENÊ CASAGRANDE','https://news.google.com/rss/search?q=Ven%C3%AA+Casagrande+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'],
+['G1 · NOTÍCIAS','https://news.google.com/rss/search?q=site%3Ag1.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'],
+['ge · ESPORTES','https://news.google.com/rss/search?q=site%3Age.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419']];
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function getFeed(feed){const url='https://api.allorigins.win/raw?url='+encodeURIComponent(feed[1]);const res=await fetch(url);if(!res.ok)throw Error('feed');const xml=new DOMParser().parseFromString(await res.text(),'text/xml');return [...xml.querySelectorAll('item')].slice(0,3).map(n=>({label:feed[0],title:n.querySelector('title')?.textContent||'Notícia',link:n.querySelector('link')?.textContent||'https://news.google.com/',date:n.querySelector('pubDate')?.textContent||''}));}
+async function load(){try{const all=await Promise.allSettled(feeds.map(getFeed));const items=all.filter(x=>x.status==='fulfilled').flatMap(x=>x.value).slice(0,12);if(!items.length)throw Error('sem notícias');box.innerHTML=items.map(x=>'<article class="card"><div class="tag">'+esc(x.label)+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.date?'Publicado em '+new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short'}).format(new Date(x.date)):'Abra a fonte para conferir a data.')+'</p><a href="'+esc(x.link)+'">Ler notícia ↗</a></article>').join('');}catch(e){box.innerHTML='<article class="card"><div class="tag">BUSCA TEMPORARIAMENTE INDISPONÍVEL</div><h3>Não foi possível carregar as manchetes agora.</h3><p>O serviço pode estar fora do ar ou bloqueado. Abra as fontes diretamente.</p><div class="links"><a href="https://ge.globo.com/futebol/times/flamengo/">Flamengo no ge ↗</a><a class="secondary" href="https://g1.globo.com/">G1 ↗</a></div></article>';}}
+load();
+</script></body></html>
