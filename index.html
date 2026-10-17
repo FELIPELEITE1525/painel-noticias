@@ -3,110 +3,394 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#c8102e">
 <title>Painel Diário de Notícias</title>
 <style>
-:root{color-scheme:light dark;--bg:light-dark(#f5f5f5,#101112);--surface:light-dark(#fff,#1a1c1e);--surface2:light-dark(#f0f1f2,#232629);--text:light-dark(#17191b,#f3f4f5);--muted:light-dark(#626a73,#a9b0b8);--line:light-dark(#e1e4e7,#34383c);--red:#c8102e}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.hero{background:linear-gradient(120deg,#171717,#2a171b);color:#fff;padding:30px 18px 25px;border-bottom:5px solid var(--red)}.inner,main{max-width:1050px;margin:auto}.eyebrow{color:#ffb9c4;font-size:.75rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}h1{font-size:clamp(1.8rem,4vw,3rem);line-height:1.1;margin:7px 0 9px}.hero p{margin:0;color:#e1dadd;max-width:720px}.tag{display:inline-block;margin-top:15px;border-radius:999px;padding:5px 10px;background:#3b171e;color:#ffc4ce;font-weight:800;font-size:.8rem}.date{color:#ddd;font-size:.9rem;margin-top:12px}main{padding:22px 16px 42px}h2{font-size:1.25rem;margin:4px 0 5px}.intro{color:var(--muted);margin:0 0 18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:18px;min-width:0}.card.feature{border-top:4px solid var(--red)}.card h3{margin:0 0 6px;font-size:1.08rem}.card p{margin:0 0 14px;color:var(--muted);font-size:.94rem}.links{display:flex;flex-wrap:wrap;gap:8px}a.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:10px;padding:9px 12px;color:var(--text);text-decoration:none;font-weight:750;font-size:.9rem;background:var(--surface2)}a.btn.primary{color:#fff;background:var(--red);border-color:var(--red)}a.btn:hover{filter:brightness(1.08)}.section{margin-top:28px}.footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:18px;margin-top:28px}@media(max-width:650px){.grid{grid-template-columns:1fr}.hero{padding-top:23px}}
-
-/* Painel organizado em abas */
-main > *:not(#painel-abas) { display:none !important; }
-#painel-abas { display:block; padding:20px 18px 40px; }
-.tab-nav { display:flex; flex-wrap:wrap; gap:10px; margin:8px 0 18px; }
-.tab-button { flex:1 1 140px; border:1px solid var(--line); border-radius:10px; padding:12px; font-weight:800; background:var(--surface2); color:var(--text); cursor:pointer; }
-.tab-button[aria-selected="true"] { background:var(--red); color:white; border-color:var(--red); }
+:root { color-scheme: light dark; --bg: light-dark(#f5f5f5,#101112); --surface: light-dark(#fff,#1a1c1e); --surface2: light-dark(#f0f1f2,#232629); --text: light-dark(#17191b,#f3f4f5); --muted: light-dark(#626a73,#a9b0b8); --line: light-dark(#e1e4e7,#34383c); --red:#c8102e; --darkred:#8f0b20; --green:#23865b; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+#app { min-height:100vh; width:100%; background:var(--bg); }
+.hero { background:linear-gradient(120deg,#171717,#2a171b); color:white; padding:28px clamp(18px,4vw,48px) 24px; border-bottom:5px solid var(--red); }
+.hero-inner { max-width:1100px; margin:auto; }
+.eyebrow { color:#ffb9c4; font-weight:800; text-transform:uppercase; letter-spacing:.13em; font-size:.75rem; }
+h1 { margin:6px 0 8px; font-size:clamp(1.8rem,4vw,3rem); line-height:1.1; }
+.hero p { margin:0; color:#e1dadd; max-width:720px; }
+.hero-row { display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+.date { color:#ddd; font-size:.9rem; margin-top:16px; }
+main { max-width:1100px; margin:auto; padding:24px clamp(14px,3vw,32px) 48px; }
+.section-head { display:flex; justify-content:space-between; gap:12px; align-items:end; flex-wrap:wrap; margin:28px 0 14px; }
+.section-head h2 { margin:0; font-size:1.35rem; }
+.section-head p { margin:3px 0 0; color:var(--muted); font-size:.9rem; }
+.pill { display:inline-flex; align-items:center; gap:7px; border-radius:999px; padding:5px 10px; background:#3b171e; color:#ffc4ce; font-size:.76rem; font-weight:800; }
+.grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.card { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px; min-width:0; }
+.card.feature { border-top:4px solid var(--red); }
+.card h3 { margin:7px 0 7px; font-size:1.08rem; line-height:1.3; }
+.card p { margin:0 0 12px; color:var(--muted); font-size:.94rem; }
+.kicker { color:var(--red); font-size:.72rem; font-weight:900; text-transform:uppercase; letter-spacing:.08em; }
+.links { display:flex; flex-wrap:wrap; gap:8px; }
+a.btn, button { display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:10px; padding:9px 12px; color:var(--text); text-decoration:none; font-weight:750; font-size:.9rem; background:var(--surface2); cursor:pointer; }
+a.btn.primary, button.primary { color:#fff; background:var(--red); border-color:var(--red); }
+a.btn:hover, button:hover { filter:brightness(1.08); }
+.sources { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.g1-photo { width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; margin-bottom:10px; background:var(--surface2); }
+.source { display:flex; flex-direction:column; gap:7px; }
+.source h3 { margin:0; }
+.source p { margin:0; flex:1; }
+.note { border-left:4px solid var(--red); padding:12px 14px; border-radius:0 10px 10px 0; background:var(--surface2); color:var(--muted); font-size:.9rem; margin-top:14px; }
+.tools { display:flex; gap:8px; flex-wrap:wrap; }
+.footer { color:var(--muted); font-size:.82rem; padding:20px 0 0; border-top:1px solid var(--line); margin-top:30px; }
+main > *:not(#simple-links) { display:none !important; }
+#simple-links .section-head { margin-top:22px; }
+#simple-links .grid { margin-bottom:22px; }
+.tab-nav { display:flex; flex-wrap:wrap; gap:10px; margin:18px 0; }
+.tab-button { flex:1 1 140px; min-width:0; }
+.tab-button[aria-selected="true"] { background:var(--red); color:#fff; border-color:var(--red); }
 .tab-panel { display:none; }
 .tab-panel.active { display:block; }
-.tab-panel .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-@media(max-width:720px){.tab-panel .grid{grid-template-columns:1fr}}
+.tab-panel .grid { margin-bottom:16px; }
+@media (max-width:720px) { .grid,.sources { grid-template-columns:1fr; } .hero { padding-top:22px; } }
 </style>
 </head>
 <body>
-<header class="hero"><div class="inner"><div class="eyebrow">Seu resumo diário</div><h1>📰 Painel Diário de Notícias</h1><p>Flamengo em primeiro lugar. Notícias gerais e esportes em acesso rápido, sem abas de notícias separadas.</p><div class="tag">🔴⚫ Mengão em destaque</div><div class="date" id="today">Atualize-se em poucos minutos</div></div></header>
+<div id="app">
+<header class="hero">
+ <div class="hero-inner">
+  <div class="hero-row"><div><div class="eyebrow">Seu resumo diário</div><h1>📰 Painel Diário de Notícias</h1><p>Flamengo em primeiro lugar. Depois, os destaques do Brasil, do mundo e do esporte — com acesso rápido às fontes confiáveis.</p></div><span class="pill">🔴⚫ Mengão em destaque</span></div>
+  <div class="date" id="today">Atualize-se em poucos minutos</div>
+ </div>
+</header>
 <main>
-<section id="painel-abas" aria-label="Painel de notícias">
- <h2>📂 Escolha uma aba</h2><p>Seu painel organizado por assunto.</p>
- <div class="tab-nav" role="tablist" aria-label="Categorias">
-  <button class="tab-button" role="tab" aria-selected="true" onclick="mostrarAba('esportes')">⚽ Esportes</button>
-  <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('tempo-real')">⏱️ Tempo real</button>
-  <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('noticias')">📰 Notícias</button>
-  <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('entretenimento')">🎬 Entretenimento</button>
-  <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('midias-sociais')">📱 Mídias sociais</button>
+ <div class="section-head"><div><h2>🔴⚫ Últimas notícias do Flamengo</h2><p>As manchetes mais recentes aparecem aqui quando a busca externa funciona. Se não carregar, use os links diretos abaixo.</p></div><span class="pill">Flamengo em primeiro lugar</span></div>
+ <div class="tools" style="margin-bottom:14px"><button id="refresh-news" class="primary" type="button" onclick="loadLiveNews()">↻ Atualizar notícias agora</button><span id="refresh-status" class="date" aria-live="polite">Carregando manchetes recentes…</span></div>
+ <div class="grid" aria-label="Manchetes verificadas em 17 de outubro de 2026">
+  <article class="card feature"><div class="kicker">ge · 17/10/2026</div><h3>Entenda processo de renovação de Rossi e visita de empresário ao hotel do Flamengo na Argentina</h3><p>O goleiro tem contrato até o fim de 2027 e manifestou vontade de permanecer; as conversas ainda estão em estágio inicial.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/noticia/2026/10/17/entenda-processo-de-renovacao-de-rossi-e-visita-de-empresario-ao-hotel-do-flamengo-na-argentina.ghtml" target="_blank" rel="noopener">Ler notícia ↗</a></div></article>
+  <article class="card feature"><div class="kicker">ge · 17/10/2026</div><h3>Alex Sandro se destaca e engata sequência que não acontecia desde março no Flamengo</h3><p>O lateral foi um dos destaques no empate contra o Estudiantes e vive sequência maior de jogos.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/noticia/2026/10/17/alex-sandro-se-destaca-e-engata-sequencia-que-nao-acontecia-desde-marco-no-flamengo.ghtml" target="_blank" rel="noopener">Ler notícia ↗</a></div></article>
+  <article class="card feature"><div class="kicker">Mauro Cezar Pereira · UOL</div><h3>Flamengo não pode passar 90 minutos sem finalizar no gol, mas passou</h3><p>Análise crítica sobre a atuação ofensiva no empate sem gols com o Estudiantes.</p><div class="links"><a class="btn primary" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/2026/10/16/flamengo-nao-pode-passar-90-minutos-sem-finalizar-no-gol-mas-passou.ghtm" target="_blank" rel="noopener">Ler análise ↗</a><a class="btn" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/" target="_blank" rel="noopener">Mais colunas ↗</a></div></article>
+  <article class="card feature"><div class="kicker">ge · Pré-jogo</div><h3>Escalação do Flamengo: Jorginho volta ao time contra o Bahia</h3><p>Prévia do jogo deste domingo, com provável escalação e informações sobre jogadores em recuperação.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/noticia/2026/10/16/escalacao-do-flamengo-jorginho-volta-ao-time-contra-o-bahia.ghtml" target="_blank" rel="noopener">Ler prévia ↗</a></div></article>
+  <article class="card"><div class="kicker">Venê Casagrande · bastidores</div><h3>Últimas notícias e publicações de Venê sobre o Flamengo</h3><p>Abra as publicações recentes do jornalista ou veja resultados de notícias para conferir a informação original.</p><div class="links"><a class="btn primary" href="https://x.com/venecasagrande" target="_blank" rel="noopener">Ver publicações ↗</a><a class="btn" href="https://news.google.com/search?q=Ven%C3%AA+Casagrande+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419" target="_blank" rel="noopener">Buscar manchetes ↗</a></div></article>
+  <article class="card"><div class="kicker">G1 · Brasil e mundo</div><h3>Principais notícias do dia</h3><p>Abra as manchetes atualizadas do G1 e escolha as reportagens que quiser ler.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/" target="_blank" rel="noopener">Abrir G1 ↗</a><a class="btn" href="https://news.google.com/search?q=site%3Ag1.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419" target="_blank" rel="noopener">Mais manchetes ↗</a></div></article>
  </div>
- <div id="aba-esportes" class="tab-panel active"><div class="grid">
-  <article class="card feature"><h3>⚽ ge · Esportes</h3><p>Principais notícias esportivas do Brasil e do mundo.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/">Abrir ge ↗</a></div></article>
-  <article class="card"><h3>🏎️ Grande Prêmio · Fórmula 1</h3><p>Notícias, análises, calendário e cobertura da Fórmula 1.</p><div class="links"><a class="btn primary" href="https://grandepremio.com/br/f1/">Abrir cobertura da F1 ↗</a></div></article>
-  <article class="card"><h3>🇦🇷 Olé · Esporte argentino</h3><p>Notícias e cobertura esportiva da Argentina.</p><div class="links"><a class="btn primary" href="https://www.ole.com.ar/">Abrir notícias esportivas da Argentina ↗</a></div></article>
- </div></div>
- <div id="aba-tempo-real" class="tab-panel"><div class="section-head"><div><h2>⚽ Placares e resultados dos campeonatos</h2><p>Consulte jogos em andamento, resultados da rodada e tabelas atualizadas.</p></div></div><div class="grid">
-  <article class="card feature"><h3>🇧🇷 Brasileirão Série A</h3><p>Jogos, placares ao vivo e classificação.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/brasileirao-serie-a/">Jogos e tabela no ge ↗</a><a class="btn" href="https://www.google.com/search?q=Brasileir%C3%A3o+S%C3%A9rie+A+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-  <article class="card"><h3>🇧🇷 Brasileirão Série B</h3><p>Resultados, próximos jogos e tabela.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/brasileirao-serie-b/">Jogos e tabela no ge ↗</a><a class="btn" href="https://www.google.com/search?q=Brasileir%C3%A3o+S%C3%A9rie+B+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-  <article class="card feature"><h3>🌎 CONMEBOL Libertadores</h3><p>Partidas, resultados e chaveamento.</p><div class="links"><a class="btn primary" href="https://www.conmebol.com/libertadores/">Site oficial ↗</a><a class="btn" href="https://www.google.com/search?q=Libertadores+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-  <article class="card"><h3>🏆 Champions League</h3><p>Jogos e resultados da Liga dos Campeões.</p><div class="links"><a class="btn primary" href="https://www.uefa.com/uefachampionsleague/fixtures-results/">Jogos e resultados ↗</a><a class="btn" href="https://www.google.com/search?q=Champions+League+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-  <article class="card"><h3>🏴 Premier League</h3><p>Campeonato Inglês: partidas e classificação.</p><div class="links"><a class="btn primary" href="https://www.premierleague.com/fixtures">Calendário oficial ↗</a><a class="btn" href="https://www.google.com/search?q=Premier+League+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-  <article class="card"><h3>🇪🇸 La Liga</h3><p>Jogos e classificação do Campeonato Espanhol.</p><div class="links"><a class="btn primary" href="https://www.laliga.com/en-GB/laliga-easports/results">Resultados oficiais ↗</a><a class="btn" href="https://www.google.com/search?q=La+Liga+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-  <article class="card"><h3>🇮🇹 Serie A Italiana</h3><p>Partidas e classificação do Campeonato Italiano.</p><div class="links"><a class="btn primary" href="https://www.legaseriea.it/en/serie-a/fixture-and-results">Jogos oficiais ↗</a><a class="btn" href="https://www.google.com/search?q=Serie+A+Italiana+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-  <article class="card"><h3>🇩🇪 Bundesliga</h3><p>Jogos e classificação do Campeonato Alemão.</p><div class="links"><a class="btn primary" href="https://www.bundesliga.com/en/bundesliga/matchday">Jogos oficiais ↗</a><a class="btn" href="https://www.google.com/search?q=Bundesliga+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-  <article class="card feature"><h3>🏀 NBA</h3><p>Jogos, placares ao vivo, resultados e classificação da liga de basquete dos Estados Unidos.</p><div class="links"><a class="btn primary" href="https://www.google.com/search?q=nba">Acompanhar NBA no Google ↗</a></div></article>
-  <article class="card"><h3>⚾ MLB</h3><p>Resultados, partidas e notícias da liga de beisebol dos Estados Unidos.</p><div class="links"><a class="btn primary" href="https://www.google.com/search?q=mlb">Acompanhar MLB no Google ↗</a></div></article>
-  <article class="card"><h3>🏈 NFL</h3><p>Jogos, placares, resultados e notícias da liga de futebol americano.</p><div class="links"><a class="btn primary" href="https://www.google.com/search?q=nfl">Acompanhar NFL no Google ↗</a></div></article>
- </div></div>
- <div id="aba-noticias" class="tab-panel"><div class="grid">
-  <article class="card feature"><h3>📰 G1</h3><p>Principais notícias do Brasil e do mundo.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/">Abrir G1 ↗</a></div></article>
-  <article class="card feature"><h3>📺 CNN Brasil</h3><p>Notícias do Brasil e do mundo, política, economia e análises.</p><div class="links"><a class="btn primary" href="https://www.cnnbrasil.com.br/">Abrir CNN Brasil ↗</a></div></article>
-  <article class="card"><h3>🌍 BBC News Brasil</h3><p>Reportagens e contexto sobre acontecimentos brasileiros e internacionais.</p><div class="links"><a class="btn primary" href="https://www.bbc.com/portuguese">Abrir BBC News Brasil ↗</a></div></article>
-  <article class="card"><h3>🗞️ Reuters</h3><p>Cobertura internacional e notícias sobre política, negócios e mercados.</p><div class="links"><a class="btn primary" href="https://www.reuters.com/">Abrir Reuters ↗</a></div></article>
-  <article class="card"><h3>🌦️ Previsão do tempo</h3><p>Previsão para Angra dos Reis.</p><div class="links"><a class="btn primary" href="https://www.climatempo.com.br/previsao-do-tempo/15-dias/cidade/769/angradosreis-rj">Ver previsão ↗</a></div></article>
-  <article class="card"><h3>🚌 Viação Senhor do Bonfim</h3><p>Linhas e horários de ônibus em Angra dos Reis.</p><div class="links"><a class="btn primary" href="https://onibus.online/empresas/viacao-senhor-do-bonfim/">Consultar horários ↗</a></div></article>
- </div></div>
- <div id="aba-entretenimento" class="tab-panel"><div class="grid">
-  <article class="card feature"><h3>🎬 Prime Video</h3><p>Filmes, séries e canais disponíveis no Prime Video.</p><div class="links"><a class="btn primary" href="https://www.primevideo.com/region/na/storefront">Abrir Prime Video ↗</a></div></article>
-  <article class="card"><h3>✨ Disney+</h3><p>Filmes, séries, animações e produções Disney.</p><div class="links"><a class="btn primary" href="https://www.disneyplus.com/pt-br/home">Abrir Disney+ ↗</a></div></article>
-  <article class="card"><h3>🍿 Netflix</h3><p>Explore filmes, séries e novidades do catálogo.</p><div class="links"><a class="btn primary" href="https://www.netflix.com/browse">Abrir Netflix ↗</a></div></article>
-  <article class="card"><h3>📺 Globoplay</h3><p>Novelas, séries, programas e conteúdos da Globo.</p><div class="links"><a class="btn primary" href="https://globoplay.globo.com/">Abrir Globoplay ↗</a></div></article>
-  <article class="card"><h3>▶️ YouTube</h3><p>Vídeos, canais, música e transmissões ao vivo.</p><div class="links"><a class="btn primary" href="https://www.youtube.com/">Abrir YouTube ↗</a></div></article>
- </div></div>
- <div id="aba-midias-sociais" class="tab-panel"><div class="grid">
-  <article class="card feature"><h3>📸 Instagram</h3><p>Fotos, vídeos, Stories e Reels.</p><div class="links"><a class="btn primary" href="https://www.instagram.com/">Abrir Instagram ↗</a></div></article>
-  <article class="card"><h3>📘 Facebook</h3><p>Publicações, grupos, páginas e notícias dos seus contatos.</p><div class="links"><a class="btn primary" href="https://www.facebook.com/">Abrir Facebook ↗</a></div></article>
-  <article class="card"><h3>𝕏 X</h3><p>Publicações, tendências e atualizações em tempo real.</p><div class="links"><a class="btn primary" href="https://x.com/home">Abrir X ↗</a></div></article>
-  <article class="card"><h3>🎵 TikTok</h3><p>Vídeos curtos, criadores e tendências.</p><div class="links"><a class="btn primary" href="https://www.tiktok.com/pt-BR/">Abrir TikTok ↗</a></div></article>
- </div></div>
-</section>
-<section><h2>📰 Acesso rápido às notícias</h2><p class="intro">Escolha uma fonte para abrir as notícias mais recentes diretamente no site original.</p><div class="grid">
-<article class="card feature"><h3>🔴⚫ Flamengo no ge</h3><p>Notícias, escalação, bastidores, mercado e próximos jogos do Mengão.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/">Abrir Flamengo ↗</a><a class="btn" href="https://www.flamengo.com.br/noticias">Fonte oficial ↗</a></div></article>
-<article class="card"><h3>⚽ ge · Esportes</h3><p>Principais notícias esportivas, futebol brasileiro e competições internacionais.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/">Abrir ge ↗</a></div></article>
-<article class="card"><h3>🇧🇷 G1 · Brasil e mundo</h3><p>Política, economia, serviços, acontecimentos nacionais e internacionais.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/">Abrir G1 ↗</a><a class="btn" href="https://g1.globo.com/economia/">G1 Economia ↗</a></div></article>
-<article class="card"><h3>🎙️ Mauro Cezar Pereira</h3><p>Análises e opiniões sobre desempenho, elenco e decisões do Flamengo.</p><div class="links"><a class="btn primary" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/">Abrir colunas ↗</a><a class="btn" href="https://www.youtube.com/results?search_query=Mauro+Cezar+Pereira+Flamengo">Vídeos ↗</a></div></article>
-<article class="card"><h3>🎙️ Venê Casagrande</h3><p>Bastidores, negociações e informações sobre o elenco rubro-negro.</p><div class="links"><a class="btn primary" href="https://x.com/venecasagrande">Abrir perfil no X ↗</a><a class="btn" href="https://news.google.com/search?q=Ven%C3%AA+Casagrande+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419">Buscar notícias ↗</a></div></article>
-</div></section>
-<section class="section"><h2>⚽ Placar ao vivo · Brasileirão e Europa</h2><p class="intro">Resultados, partidas em andamento, tabelas e calendários dos campeonatos.</p><div class="grid">
-<article class="card feature"><h3>🔴 Brasileirão Série A</h3><p>Jogos da rodada, classificação e placar ao vivo.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/brasileirao-serie-a/">Brasileirão no ge ↗</a><a class="btn" href="https://www.google.com/search?q=Brasileir%C3%A3o+S%C3%A9rie+A+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-<article class="card"><h3>🇧🇷 Brasileirão Série B</h3><p>Resultados e classificação da Série B.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/brasileirao-serie-b/">Série B no ge ↗</a><a class="btn" href="https://www.google.com/search?q=Brasileir%C3%A3o+S%C3%A9rie+B+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-<article class="card"><h3>🏆 Champions League</h3><p>Jogos e resultados da principal competição europeia.</p><div class="links"><a class="btn primary" href="https://www.uefa.com/uefachampionsleague/fixtures-results/">Jogos oficiais ↗</a><a class="btn" href="https://www.google.com/search?q=Champions+League+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-<article class="card"><h3>🏴 Premier League</h3><p>Campeonato Inglês: partidas e classificação.</p><div class="links"><a class="btn primary" href="https://www.premierleague.com/fixtures">Calendário ↗</a><a class="btn" href="https://www.google.com/search?q=Premier+League+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-<article class="card"><h3>🇪🇸 La Liga</h3><p>Campeonato Espanhol: partidas e resultados.</p><div class="links"><a class="btn primary" href="https://www.laliga.com/en-GB/laliga-easports/results">Resultados ↗</a><a class="btn" href="https://www.google.com/search?q=La+Liga+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-<article class="card"><h3>🇮🇹 Serie A</h3><p>Campeonato Italiano: jogos e tabela.</p><div class="links"><a class="btn primary" href="https://www.legaseriea.it/en/serie-a/fixture-and-results">Calendário ↗</a><a class="btn" href="https://www.google.com/search?q=Serie+A+Italiana+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-<article class="card"><h3>🇩🇪 Bundesliga</h3><p>Campeonato Alemão: partidas e classificação.</p><div class="links"><a class="btn primary" href="https://www.bundesliga.com/en/bundesliga/matchday">Jogos oficiais ↗</a><a class="btn" href="https://www.google.com/search?q=Bundesliga+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
-<article class="card"><h3>🌍 Todos os campeonatos</h3><p>Veja placares de várias ligas e países em um só lugar.</p><div class="links"><a class="btn primary" href="https://www.google.com/search?q=futebol+placar+ao+vivo+hoje">Todos os placares ↗</a><a class="btn" href="https://www.espn.com.br/futebol/resultados">Resultados ESPN ↗</a></div></article>
-<article class="card"><h3>⚽ ge · Esportes</h3><p>Principais notícias esportivas do Brasil e do mundo.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/">Abrir ge Esportes ↗</a></div></article>
-<article class="card"><h3>🏎️ Grande Prêmio · Fórmula 1</h3><p>Notícias, análises, calendário e cobertura da Fórmula 1.</p><div class="links"><a class="btn primary" href="https://grandepremio.com/br/f1/">Abrir Grande Prêmio F1 ↗</a></div></article>
-<article class="card"><h3>🇦🇷 Olé · Esporte argentino</h3><p>Notícias e cobertura esportiva da Argentina.</p><div class="links"><a class="btn primary" href="https://www.ole.com.ar/">Abrir Olé ↗</a></div></article>
-</div></section>
-<div class="footer">Painel de atalhos informativo. Manchetes, análises e resultados são publicados pelas fontes originais; abra os links para consultar as atualizações.</div>
-
- <div class="section-head"><div><h2>🌦️ Previsão do tempo</h2><p>Consulte a previsão para Angra dos Reis pelos próximos 15 dias no Climatempo.</p></div></div>
- <div class="grid">
-  <article class="card feature"><h3>🌦️ Angra dos Reis · RJ</h3><p>Veja a previsão para os próximos 15 dias, com temperaturas, possibilidade de chuva e condições do tempo.</p><div class="links"><a class="btn primary" href="https://www.climatempo.com.br/previsao-do-tempo/15-dias/cidade/769/angradosreis-rj" target="_blank" rel="noopener">Ver previsão de 15 dias ↗</a></div></article>
+ <div class="section-head"><div><h2>🇧🇷 G1 · 3 destaques com foto</h2><p>As três notícias com imagem em destaque na página inicial do G1, com links diretos para as reportagens.</p><span id="g1-status" class="date" aria-live="polite">Buscando os três destaques com foto do G1…</span></div><a class="btn" href="https://g1.globo.com/" target="_blank" rel="noopener">Abrir G1 ↗</a></div>
+ <div class="grid" id="g1-top-five" aria-label="As três notícias com foto em destaque no G1">
+  <article class="card"><div class="kicker">G1 · Destaque da página inicial</div><h3>Jovens apostam nas redes e em ações de “vira-voto” na reta final da eleição</h3><p>Uma das manchetes exibidas na página principal do G1.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/politica/eleicoes/2026/noticia/2026/10/17/jovens-intensificam-mobilizacao-para-conquistar-votos-para-lula-e-flavio-no-segundo-turno.ghtml" target="_blank" rel="noopener">Ler reportagem ↗</a></div></article>
+  <article class="card"><div class="kicker">G1 · Destaque da página inicial</div><h3>“Carreatas” no Roblox têm buzinaço, bloquinho e até showmício digital</h3><p>Reportagem sobre ações eleitorais que usam o universo virtual do Roblox.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/tecnologia/noticia/2026/10/17/carreatas-no-roblox-para-flavio-e-lula-tem-buzinaco-bloquinho-e-ate-showmicio-digital-conheca.ghtml" target="_blank" rel="noopener">Ler reportagem ↗</a></div></article>
+  <article class="card"><div class="kicker">G1 · Destaque da página inicial</div><h3>Brasileiros no exterior se mobilizam para reverter abstenção</h3><p>Grupos se organizam para ajudar eleitores a participar do segundo turno.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/mundo/noticia/2026/10/17/brasileiros-no-exterior-se-mobilizam-para-reverter-abstencao-no-2o-turno.ghtml" target="_blank" rel="noopener">Ler reportagem ↗</a></div></article>
+  <article class="card"><div class="kicker">G1 · Destaque da página inicial</div><h3>Mais de 4 mil seções mudaram de local para o 2º turno; veja como consultar</h3><p>Informações para conferir o local de votação antes de ir às urnas.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/politica/eleicoes/2026/noticia/2026/10/17/mais-de-43-mil-secoes-eleitorais-mudaram-de-local-para-o-2o-turno-veja-como-consultar-onde-votar.ghtml" target="_blank" rel="noopener">Ler reportagem ↗</a></div></article>
+  <article class="card"><div class="kicker">G1 · Destaque da página inicial</div><h3>Flávio Bolsonaro promete manter fim da escala 6x1 e comenta prisão de aliados no RJ</h3><p>Resumo de declarações em entrevista à Globo.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/politica/eleicoes/2026/noticia/2026/10/16/flavio-bolsonaro-entrevista-globo.ghtml" target="_blank" rel="noopener">Ler reportagem ↗</a></div></article>
  </div>
- <div class="section-head"><div><h2>🚌 Horários de ônibus · Angra dos Reis</h2><p>Consulte linhas e horários da Viação Senhor do Bonfim.</p></div></div>
+ <div class="section-head"><div><h2>⚽ ge · 5 principais manchetes</h2><p>As cinco chamadas esportivas recentes encontradas no ge, com acesso à cobertura original.</p></div><a class="btn" href="https://ge.globo.com/" target="_blank" rel="noopener">Abrir ge ↗</a></div>
+ <div class="grid" aria-label="Cinco notícias recentes do ge">
+  <article class="card"><div class="kicker">ge · Futebol internacional</div><h3>Boca de Riquelme? Como argentinos veem evolução do Flamengo</h3><p>Análise sobre a percepção na Argentina após o empate na semifinal da Libertadores.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/" target="_blank" rel="noopener">Ler na cobertura do ge ↗</a></div></article>
+  <article class="card"><div class="kicker">ge · Libertadores Feminina</div><h3>Corinthians vence o Colo-Colo na estreia; veja os melhores momentos</h3><p>Resumo da estreia corintiana na competição continental feminina.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/" target="_blank" rel="noopener">Abrir no ge ↗</a></div></article>
+  <article class="card"><div class="kicker">ge · Corinthians</div><h3>Eleição no Corinthians: conheça os cinco candidatos à presidência</h3><p>O clube tem eleição marcada para 28 de novembro.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/" target="_blank" rel="noopener">Abrir no ge ↗</a></div></article>
+  <article class="card"><div class="kicker">ge · Futebol feminino</div><h3>Fluminense abre placar contra o Flamengo pelas quartas de final</h3><p>Acompanhe a cobertura do jogo de ida da Copa do Brasil Feminina.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/" target="_blank" rel="noopener">Acompanhar no ge ↗</a></div></article>
+  <article class="card"><div class="kicker">ge · Futebol internacional</div><h3>Evanilson e Rayan marcam em vitória do Bournemouth: “Noite histórica”</h3><p>Brasileiros se destacaram na partida do clube inglês.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/" target="_blank" rel="noopener">Ler no ge ↗</a></div></article>
+ </div>
+ <div id="live-news" class="grid">
+  <article class="card feature"><div class="kicker">🔴⚫ FLAMENGO · PRIORIDADE</div><h3>Flamengo empata em 0 a 0 com o Estudiantes e decide vaga no Maracanã</h3><p>O Rubro-Negro segurou o empate fora de casa; a partida de volta decide a vaga na final da Libertadores.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/noticia/2026/10/16/analise-flamengo-nao-da-um-chute-no-gol-na-argentina-mas-tem-tudo-para-ir-a-mais-uma-final.ghtml">Ler notícia ↗</a><a class="btn" href="https://news.google.com/search?q=Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419">Mais manchetes do Flamengo ↗</a></div></article>
+  <article class="card feature"><div class="kicker">ANÁLISES · MAURO CEZAR</div><h3>“Flamengo não pode passar 90 minutos sem finalizar no gol, mas passou”</h3><p>Comentário crítico sobre a atuação ofensiva da equipe contra o Estudiantes.</p><div class="links"><a class="btn primary" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/">Ver coluna de Mauro Cezar ↗</a><a class="btn" href="https://news.google.com/search?q=Mauro+Cezar+Pereira+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419">Mais manchetes ↗</a></div></article>
+  <article class="card feature"><div class="kicker">BASTIDORES · VENÊ CASAGRANDE</div><h3>Venê Casagrande: atualizações sobre elenco e bastidores do Flamengo</h3><p>Confira as apurações mais recentes sobre relacionados, negociações e situação dos jogadores.</p><div class="links"><a class="btn primary" href="https://x.com/venecasagrande">Ver publicações de Venê ↗</a><a class="btn" href="https://news.google.com/search?q=Ven%C3%AA+Casagrande+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419">Manchetes sobre Venê ↗</a></div></article>
+  <article class="card"><div class="kicker">G1 · POLÍTICA</div><h3>Minas Gerais vira foco das campanhas de Lula e Flávio Bolsonaro no 2º turno</h3><p>Reportagem sobre a disputa por votos em um estado considerado estratégico na eleição.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/politica/noticia/2026/10/17/estado-espelho-do-brasil-mg-entra-no-foco-das-campanhas-de-lula-e-flavio-bolsonaro-para-o-2o-turno.ghtml">Ler no G1 ↗</a><a class="btn" href="https://news.google.com/search?q=site%3Ag1.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419">Mais manchetes do G1 ↗</a></div></article>
+  <article class="card"><div class="kicker">ge · FLAMENGO</div><h3>Jorginho volta e Flamengo se prepara para enfrentar o Bahia</h3><p>O ge destaca o retorno do volante e a preparação para a rodada do Brasileirão.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/noticia/2026/10/16/escalacao-do-flamengo-jorginho-volta-ao-time-contra-o-bahia.ghtml">Ler no ge ↗</a><a class="btn" href="https://news.google.com/search?q=site%3Age.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419">Mais manchetes do ge ↗</a></div></article>
+ </div>
+ <div class="section-head"><div><h2>🗞️ Outras manchetes selecionadas</h2><p>Os links abaixo são uma seleção fixa e podem ficar desatualizados.</p></div><span class="pill">Seleção anterior</span></div>
  <div class="grid">
-  <article class="card feature"><h3>🚌 Viação Senhor do Bonfim</h3><p>Consulte as linhas de ônibus de Angra dos Reis e confira os horários disponíveis no Ônibus Online.</p><div class="links"><a class="btn primary" href="https://onibus.online/empresas/viacao-senhor-do-bonfim/" target="_blank" rel="noopener">Consultar linhas e horários ↗</a></div></article>
+  <article class="card feature"><div class="kicker">FLAMENGO · LIBERTADORES</div><h3>Flamengo empata em 0 a 0 com o Estudiantes e decide vaga no Maracanã</h3><p>O Rubro-Negro resistiu fora de casa; a volta está marcada para quinta-feira, 22 de outubro. O ge analisa uma atuação ofensivamente apagada apesar do bom resultado.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/noticia/2026/10/16/analise-flamengo-nao-da-um-chute-no-gol-na-argentina-mas-tem-tudo-para-ir-a-mais-uma-final.ghtml" target="_blank" rel="noopener">Abrir notícia ↗</a></div></article>
+  <article class="card feature"><div class="kicker">FLAMENGO · BRASILEIRÃO</div><h3>Jorginho volta e Flamengo se prepara para enfrentar o Bahia</h3><p>O jogo será neste domingo, 18/10, às 18h30. O ge traz o provável time e a situação dos lesionados, incluindo Danilo e Arrascaeta.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/noticia/2026/10/16/escalacao-do-flamengo-jorginho-volta-ao-time-contra-o-bahia.ghtml" target="_blank" rel="noopener">Abrir notícia ↗</a></div></article>
+  <article class="card feature"><div class="kicker">OPINIÃO · MAURO CEZAR PEREIRA</div><h3>Últimas colunas de Mauro Cezar</h3><p><strong>16/10 —</strong> “Flamengo não pode passar 90 minutos sem finalizar no gol, mas passou”.<br><strong>16/10 —</strong> “Mauro Cezar: Flamengo não faz investimento para apresentar um jogo desse”.<br><strong>15/10 —</strong> “Mauro Cezar: Flamengo é acerto de contas a ser feito para o Estudiantes”.<br><strong>12/10 —</strong> “Mais uma displicência! Pedro perde gols que não pode perder”. São análises e opiniões do colunista.</p><div class="links"><a class="btn primary" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/" target="_blank" rel="noopener">Ver todas as colunas ↗</a><a class="btn" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/2026/10/16/flamengo-nao-pode-passar-90-minutos-sem-finalizar-no-gol-mas-passou.ghtm" target="_blank" rel="noopener">Ler coluna sobre o Estudiantes ↗</a></div></article>
+  <article class="card feature"><div class="kicker">BASTIDORES · VENÊ CASAGRANDE NO X</div><h3>Últimas atualizações de Venê Casagrande</h3><p><strong>Há menos de 1 dia:</strong> publicou sobre a preparação do Flamengo para enfrentar o Estudiantes e a lista de relacionados.<br><strong>Há cerca de 2 dias:</strong> comentou a recuperação de Danilo após cirurgia e a situação de Arrascaeta.<br><strong>Também recente:</strong> informou sobre a convocação de Gustavo Cardoso, lateral da base do Flamengo, para treinar com a seleção portuguesa sub-15. Confira os posts originais, pois as atualizações mudam rapidamente.</p><div class="links"><a class="btn primary" href="https://x.com/venecasagrande" target="_blank" rel="noopener">Ver posts mais recentes no X ↗</a><a class="btn" href="https://news.google.com/search?q=Ven%C3%AA+Casagrande+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419" target="_blank" rel="noopener">Mais notícias sobre Venê ↗</a></div></article>
+  <article class="card"><div class="kicker">G1 · ELEIÇÕES</div><h3>Minas Gerais vira foco das campanhas de Lula e Flávio Bolsonaro no 2º turno</h3><p>O estado é tratado como decisivo por seu peso eleitoral; a reportagem aborda a disputa por votos e a estratégia das campanhas.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/politica/noticia/2026/10/17/estado-espelho-do-brasil-mg-entra-no-foco-das-campanhas-de-lula-e-flavio-bolsonaro-para-o-2o-turno.ghtml" target="_blank" rel="noopener">Abrir no G1 ↗</a></div></article>
+  <article class="card"><div class="kicker">G1 · MUNDO</div><h3>Brasileiros no exterior se organizam para votar no 2º turno</h3><p>Após abstenção de 62,7% no exterior no primeiro turno, grupos articulam caronas e hospedagem para ajudar eleitores a chegar às urnas.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/mundo/noticia/2026/10/17/brasileiros-no-exterior-se-mobilizam-para-reverter-abstencao-no-2o-turno.ghtml" target="_blank" rel="noopener">Abrir no G1 ↗</a></div></article>
+  <article class="card"><div class="kicker">G1 · POLÍTICA E JUSTIÇA</div><h3>Revista relata mensagens sobre festa ligada a Vorcaro e ministro do STF</h3><p>O G1 noticiou alegações atribuídas a uma revista. Abra a matéria para conferir o que foi relatado, o contexto e as respostas mencionadas no texto.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/politica/noticia/2026/10/16/mensagens-mostram-festa-de-vorcaro-para-kassio-nunes-marques-com-garotas-de-programa-diz-revista.ghtml" target="_blank" rel="noopener">Abrir no G1 ↗</a></div></article>
+ </div>
+ <div class="note"><strong>Como usar:</strong> cada botão abre a matéria original em outra aba. Manchetes e resumos desta seleção correspondem à apuração disponível em 17/10/2026; o conteúdo pode mudar quando as fontes atualizarem as páginas.</div>
+ <div class="section-head"><div><h2>🔴⚫ Flamengo: prioridade máxima</h2><p>Notícias, bastidores, elenco, mercado e próximos jogos.</p></div><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/" target="_blank" rel="noopener">Abrir cobertura do Flamengo ↗</a></div>
+ <div class="grid">
+  <article class="card feature"><div class="kicker">01 · Últimas notícias</div><h3>O que está acontecendo com o Flamengo?</h3><p>Veja a cobertura atualizada: resultados, escalação, lesões, treinos, bastidores e informações antes dos jogos.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/" target="_blank" rel="noopener">Últimas do ge ↗</a><a class="btn" href="https://www.flamengo.com.br/noticias" target="_blank" rel="noopener">Fonte oficial ↗</a></div></article>
+  <article class="card feature"><div class="kicker">02 · Análise e opinião</div><h3>Mauro Cezar Pereira</h3><p>Análises críticas sobre desempenho, decisões da diretoria, treinador, elenco e momento do clube. Opiniões ficam identificadas como opinião.</p><div class="links"><a class="btn primary" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/" target="_blank" rel="noopener">Ler colunas ↗</a><a class="btn" href="https://www.youtube.com/results?search_query=Mauro+Cezar+Pereira+Flamengo" target="_blank" rel="noopener">Vídeos e comentários ↗</a></div></article>
+  <article class="card feature"><div class="kicker">03 · Bastidores</div><h3>Venê Casagrande</h3><p>Acompanhe apurações sobre contratações, saídas, negociações, ambiente interno e situação dos jogadores. Confirme cada informação na publicação original.</p><div class="links"><a class="btn primary" href="https://www.youtube.com/results?search_query=Ven%C3%AA+Casagrande+Flamengo" target="_blank" rel="noopener">Buscar notícias e vídeos ↗</a><a class="btn" href="https://ge.globo.com/futebol/times/flamengo/" target="_blank" rel="noopener">Conferir no ge ↗</a></div></article>
+  <article class="card feature"><div class="kicker">04 · Agenda</div><h3>Próximo jogo e onde assistir</h3><p>Consulte horário, adversário, provável escalação, desfalques e transmissão nas páginas atualizadas. Não exibimos horários sem confirmação.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/" target="_blank" rel="noopener">Agenda e escalação ↗</a><a class="btn" href="https://www.espn.com.br/futebol/time/agenda/_/id/819/flamengo" target="_blank" rel="noopener">Calendário ESPN ↗</a></div></article>
+ </div>
+ <div class="note"><strong>Critério editorial:</strong> este painel abre as fontes para consultar as manchetes mais recentes. Ele não importa automaticamente notícias em tempo real dentro desta prévia; confira data, autoria e contexto no site de origem.</div>
+ <div class="section-head"><div><h2>🌎 G1 e ge · manchetes da página inicial</h2><p>Veja as primeiras notícias destacadas nos sites e abra as páginas originais para conferir a ordem e as atualizações mais recentes.</p></div><span class="pill">Destaques das fontes</span></div>
+ <div class="grid">
+  <article class="card feature"><div class="kicker">G1 · PÁGINA INICIAL</div><h3>As principais notícias do Brasil e do mundo</h3><p>Este atalho leva à tela principal do G1, onde aparecem as manchetes em destaque. A ordem pode mudar ao longo do dia e conforme a edição da página.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/" target="_blank" rel="noopener">Ver manchetes do G1 ↗</a><a class="btn" href="https://news.google.com/rss/search?q=site%3Ag1.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419" target="_blank" rel="noopener">Últimas do G1 ↗</a></div></article>
+  <article class="card feature"><div class="kicker">ge · PÁGINA INICIAL</div><h3>As principais notícias do esporte</h3><p>Abra a tela principal do ge para ver as manchetes esportivas em destaque. Para priorizar o Flamengo, use também a cobertura específica do clube.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/" target="_blank" rel="noopener">Ver manchetes do ge ↗</a><a class="btn" href="https://news.google.com/rss/search?q=site%3Age.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419" target="_blank" rel="noopener">Últimas do ge ↗</a><a class="btn" href="https://ge.globo.com/futebol/times/flamengo/" target="_blank" rel="noopener">Só Flamengo ↗</a></div></article>
+ </div>
+ <div class="section-head"><div><h2>🌎 Brasil, mundo e economia</h2><p>Os principais portais para verificar o que merece sua atenção hoje.</p></div></div>
+ <div class="sources">
+  <article class="card source"><div class="kicker">Brasil e mundo</div><h3>G1</h3><p>Política, segurança, serviços, saúde, educação e acontecimentos internacionais.</p><a class="btn primary" href="https://g1.globo.com/" target="_blank" rel="noopener">Abrir G1 ↗</a></article>
+  <article class="card source"><div class="kicker">Esporte</div><h3>ge</h3><p>Futebol brasileiro, campeonatos internacionais, resultados e cobertura esportiva.</p><a class="btn primary" href="https://ge.globo.com/" target="_blank" rel="noopener">Abrir ge ↗</a></article>
+  <article class="card source"><div class="kicker">Notícias e análise</div><h3>GloboNews</h3><p>Reportagens, entrevistas e análises dos assuntos mais relevantes.</p><a class="btn primary" href="https://g1.globo.com/globonews/" target="_blank" rel="noopener">Abrir GloboNews ↗</a></article>
+ </div>
+ <div class="section-head"><div><h2>⚡ Acesso rápido</h2><p>Atalhos para abrir suas fontes favoritas.</p></div></div>
+ <div class="card"><div class="tools"><a class="btn" href="https://ge.globo.com/futebol/times/flamengo/" target="_blank" rel="noopener">Flamengo no ge</a><a class="btn" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/" target="_blank" rel="noopener">Mauro Cezar</a><a class="btn" href="https://www.youtube.com/results?search_query=Ven%C3%AA+Casagrande+Flamengo" target="_blank" rel="noopener">Venê Casagrande</a><a class="btn" href="https://g1.globo.com/economia/" target="_blank" rel="noopener">G1 Economia</a><a class="btn" href="https://g1.globo.com/mundo/" target="_blank" rel="noopener">G1 Mundo</a><a class="btn" href="https://ge.globo.com/futebol/" target="_blank" rel="noopener">Futebol</a></div></div>
+ <div class="footer">Painel de navegação informativo · As manchetes e opiniões pertencem às fontes originais. Use os links para conferir atualizações e publicações completas.</div>
+ <div id="simple-links">
+  <div class="section-head"><div><h2>📂 Escolha uma aba</h2><p>Conteúdo organizado para abrir somente o que você quer acompanhar.</p></div></div>
+  <div class="tab-nav" role="tablist" aria-label="Categorias do painel">
+   <button class="tab-button" id="tab-esportes" role="tab" aria-controls="panel-esportes" aria-selected="true" type="button" onclick="showPanel('esportes')">⚽ Esportes</button>
+   <button class="tab-button" id="tab-tempo-real" role="tab" aria-controls="panel-tempo-real" aria-selected="false" type="button" onclick="showPanel('tempo-real')">⏱️ Tempo real</button>
+   <button class="tab-button" id="tab-noticias" role="tab" aria-controls="panel-noticias" aria-selected="false" type="button" onclick="showPanel('noticias')">📰 Notícias</button>
+   <button class="tab-button" id="tab-entretenimento" role="tab" aria-controls="panel-entretenimento" aria-selected="false" type="button" onclick="showPanel('entretenimento')">🎬 Entretenimento</button>
+   <button class="tab-button" id="tab-midias-sociais" role="tab" aria-controls="panel-midias-sociais" aria-selected="false" type="button" onclick="showPanel('midias-sociais')">📱 Mídias sociais</button>
+  </div>
+  <div id="panel-esportes" class="tab-panel active" role="tabpanel" aria-labelledby="tab-esportes"><div class="grid" id="cards-esportes-links">
+    <article class="card feature"><div class="kicker">⚽ ge · Esportes</div><h3>Principais notícias esportivas</h3><p>Acesse as manchetes de futebol e de outros esportes no portal ge.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/" rel="noopener">Abrir ge ↗</a></div></article>
+    <article class="card feature"><div class="kicker">🔴⚫ Flamengo</div><h3>Flamengo no ge</h3><p>Últimas notícias, escalações, bastidores, mercado e próximos jogos do Mengão.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/" rel="noopener">Abrir Flamengo no ge ↗</a></div></article>
+    <article class="card"><div class="kicker">🎙️ Análise e opinião</div><h3>Mauro Cezar Pereira</h3><p>Colunas e comentários sobre o desempenho, elenco e decisões do Flamengo.</p><div class="links"><a class="btn primary" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/" rel="noopener">Ler colunas ↗</a></div></article>
+    <article class="card"><div class="kicker">🎙️ Bastidores</div><h3>Venê Casagrande</h3><p>Apurações e publicações sobre elenco, negociações e bastidores do Flamengo.</p><div class="links"><a class="btn primary" href="https://x.com/venecasagrande" rel="noopener">Ver publicações ↗</a></div></article>
+    <article class="card"><div class="kicker">🏎️ Fórmula 1</div><h3>Grande Prêmio · F1</h3><p>Notícias, análises, calendário e cobertura da Fórmula 1.</p><div class="links"><a class="btn primary" href="https://grandepremio.com/br/f1/" rel="noopener">Abrir cobertura da F1 ↗</a></div></article>
+    <article class="card"><div class="kicker">🇦🇷 Esporte argentino</div><h3>Olé</h3><p>Notícias e cobertura esportiva da Argentina.</p><div class="links"><a class="btn primary" href="https://www.ole.com.ar/" rel="noopener">Abrir notícias esportivas da Argentina ↗</a></div></article>
+  </div></div>
+  <div id="panel-tempo-real" class="tab-panel" role="tabpanel" aria-labelledby="tab-tempo-real">
+   <div class="section-head"><div><h2>⚽ Placar e resultados dos campeonatos</h2><p>Abra os placares atualizados, jogos da rodada e tabelas de classificação.</p></div><span class="pill">Placar ao vivo</span></div>
+   <div class="grid" id="cards-tempo-real">
+    <article class="card feature"><div class="kicker">📊 Todos os jogos</div><h3>Placar geral de futebol</h3><p>Consulte partidas em andamento de várias ligas e países, além dos resultados do dia.</p><div class="links"><a class="btn primary" href="https://www.espn.com.br/futebol/resultados" rel="noopener">Resultados na ESPN ↗</a><a class="btn" href="https://www.google.com/search?q=futebol+placar+ao+vivo+hoje" rel="noopener">Todos os placares ↗</a></div></article>
+    <article class="card feature"><div class="kicker">🇧🇷 Brasil</div><h3>Brasileirão Série A</h3><p>Jogos de hoje, placares ao vivo, resultados e classificação.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/brasileirao-serie-a/" rel="noopener">Jogos e tabela no ge ↗</a><a class="btn" href="https://www.google.com/search?q=Brasileir%C3%A3o+S%C3%A9rie+A+placar+ao+vivo" rel="noopener">Placar ao vivo ↗</a></div></article>
+    <article class="card"><div class="kicker">🇧🇷 Brasil</div><h3>Brasileirão Série B</h3><p>Resultados, próximos jogos e classificação da Série B.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/brasileirao-serie-b/" rel="noopener">Jogos e tabela no ge ↗</a><a class="btn" href="https://www.google.com/search?q=Brasileir%C3%A3o+S%C3%A9rie+B+placar+ao+vivo" rel="noopener">Placar ao vivo ↗</a></div></article>
+    <article class="card feature"><div class="kicker">🌎 América do Sul</div><h3>CONMEBOL Libertadores</h3><p>Partidas, resultados e chaveamento da Libertadores.</p><div class="links"><a class="btn primary" href="https://www.conmebol.com/libertadores/" rel="noopener">Site oficial ↗</a><a class="btn" href="https://www.google.com/search?q=Libertadores+placar+ao+vivo" rel="noopener">Placar ao vivo ↗</a></div></article>
+    <article class="card"><div class="kicker">🏆 Europa</div><h3>Champions League</h3><p>Jogos, placares e classificação da Liga dos Campeões.</p><div class="links"><a class="btn primary" href="https://www.uefa.com/uefachampionsleague/fixtures-results/" rel="noopener">Jogos e resultados ↗</a><a class="btn" href="https://www.google.com/search?q=Champions+League+placar+ao+vivo" rel="noopener">Placar ao vivo ↗</a></div></article>
+    <article class="card"><div class="kicker">🏴 Inglaterra</div><h3>Premier League</h3><p>Campeonato Inglês: partidas, resultados e tabela.</p><div class="links"><a class="btn primary" href="https://www.premierleague.com/fixtures" rel="noopener">Calendário oficial ↗</a><a class="btn" href="https://www.google.com/search?q=Premier+League+placar+ao+vivo" rel="noopener">Placar ao vivo ↗</a></div></article>
+    <article class="card"><div class="kicker">🇪🇸 Espanha</div><h3>La Liga</h3><p>Jogos, resultados e classificação do Campeonato Espanhol.</p><div class="links"><a class="btn primary" href="https://www.laliga.com/en-GB/laliga-easports/results" rel="noopener">Resultados oficiais ↗</a><a class="btn" href="https://www.google.com/search?q=La+Liga+placar+ao+vivo" rel="noopener">Placar ao vivo ↗</a></div></article>
+    <article class="card"><div class="kicker">🇮🇹 Itália</div><h3>Serie A Italiana</h3><p>Partidas, placares e classificação do Campeonato Italiano.</p><div class="links"><a class="btn primary" href="https://www.legaseriea.it/en/serie-a/fixture-and-results" rel="noopener">Jogos oficiais ↗</a><a class="btn" href="https://www.google.com/search?q=Serie+A+Italiana+placar+ao+vivo" rel="noopener">Placar ao vivo ↗</a></div></article>
+    <article class="card"><div class="kicker">🇩🇪 Alemanha</div><h3>Bundesliga</h3><p>Jogos, resultados e classificação do Campeonato Alemão.</p><div class="links"><a class="btn primary" href="https://www.bundesliga.com/en/bundesliga/matchday" rel="noopener">Jogos oficiais ↗</a><a class="btn" href="https://www.google.com/search?q=Bundesliga+placar+ao+vivo" rel="noopener">Placar ao vivo ↗</a></div></article>
+    <article class="card feature"><div class="kicker">🏀 Basquete · EUA</div><h3>NBA</h3><p>Placar, jogos e resultados da liga de basquete.</p><div class="links"><a class="btn primary" href="https://www.google.com/search?gs_ssp=eJzj4tDP1TcwzSqrMGD0Ys5LSgQAIikESg&q=nba&oq=nba&gs_lcrp=EgZjaHJvbWUqBggBEC4YJzIGCAAQRRhBMgYIARAuGCcyBggCEEUYOzIMCAMQABgUGIcCGIAEMhIIBBAAGEMYgwEYsQMYgAQYigUyCggFEC4YsQMYgAQyDAgGEAAYQxiABBiKBTIQCAcQLhjHARixAxjRAxiABNIBCDI5MjdqMGo3qAIAsAIA&sourceid=chrome&source=chrome.ob&ie=UTF-8" rel="noopener">NBA no Google ↗</a></div></article>
+    <article class="card"><div class="kicker">⚾ Beisebol · EUA</div><h3>MLB</h3><p>Resultados, jogos e placares da Major League Baseball.</p><div class="links"><a class="btn primary" href="https://www.google.com/search?q=mlb&sca_esv=57d203991a0adb36&sxsrf=APpeQnvVnPO_9Ye_ot9A9xIz2CjzfGb_Ag%3A1792268919680&ei=d9rTavCGKeHz5OUP9aXZ2Qc&biw=1920&bih=945&uact=5&oq=mlb&gs_lp=Egxnd3Mtd2l6LXNlcnAiA21sYjIEEC4YJzIQEAAYgAQYigUYQxixAxiDATIQEAAYgAQYigUYQxixAxiDATILEAAYgAQYsQMYgwEyChAAGIAEGBQYhwIyEBAAGIAEGIoFGEMYsQMYgwEyChAAGIAEGBQYhwIyBRAAGIAEMgQQABgDMgsQABiABBixAxiDATIREC4YlwUY3AQY3gQY4ATYAQFIqgtQAFiLB3AAeAGQAQCYAW2gAb0CqgEDMS4yuAEDyAEA-AEBmAIDoALTAsICDRAjGPAFGJ4GGKIHGCfCAgQQIxgnwgIKEAAYgAQYigUYQ8ICChAuGIAEGIoFGEPCAgsQLhiABBixAxiDAcICDRAuGIAEGIoFGEMYsQPCAg4QABiABBiKBRixAxiDAZgDALoGBggBEAEYFJIHAzAuM6AHiC2yBwMwLjO4B9MCwgcDMi0zyAcPgAgB&sclient=gws-wiz-serp" rel="noopener">MLB no Google ↗</a></div></article>
+    <article class="card"><div class="kicker">🏈 Futebol americano · EUA</div><h3>NFL</h3><p>Jogos, placares e resultados da liga de futebol americano.</p><div class="links"><a class="btn primary" href="https://www.google.com/search?q=nfl&sca_esv=57d203991a0adb36&biw=1920&bih=945&sxsrf=APpeQnuKE52ZxnoIETfrnib390twIRS-dw%3A1792268949934&ei=ldrTapvCONPc5OUPu9b32A4&gs_ssp=eJzj4tDP1TcwtazMMmD0Ys5LywEAH_0EHQ&oq=nfl&gs_lp=Egxnd3Mtd2l6LXNlcnAiA25mbCoECAAYJzIEEC4YJzINECMYogcYngYY8AUYJzIEECMYJzIEECMYJzIQEAAYgAQYigUYQxixAxiDATINEAAYgAQYFBiHAhixAzIQEAAYgAQYigUYQxixAxiDATIFEAAYgAQyChAAGIAEGBQYhwIyDRAAGIAEGIoFGEMYsQMyERAuGJcFGNwEGN4EGOAE2AEBSPUUUABYgwZwAHgBkAEAmAFmoAGlAqoBAzIuMbgBA8gBAPgBAZgCBKACgRDCAgoQLhiABBiKBRhDwgIKEAAYgAQYigUYQ5gDALoGBggBEAEYFJIHBzEuMi43LTGgB4QssgcDMS4yuAe6AsIHBTAuMS4zyAcQgAgB&sclient=gws-wiz-serp" rel="noopener">NFL no Google ↗</a></div></article>
+   </div>
+  </div>
+  <div id="panel-noticias" class="tab-panel" role="tabpanel" aria-labelledby="tab-noticias">
+   <div class="section-head"><div><h2>📰 Portais de notícias</h2><p>Acesse fontes nacionais e internacionais para comparar a cobertura dos principais assuntos.</p></div></div>
+   <div class="grid" id="cards-noticias">
+    <article class="card feature"><div class="kicker">Brasil · Notícias</div><h3>CNN Brasil</h3><p>Notícias do Brasil e do mundo, política, economia e análises.</p><div class="links"><a class="btn primary" href="https://www.cnnbrasil.com.br/" rel="noopener">Abrir CNN Brasil ↗</a></div></article>
+    <article class="card"><div class="kicker">Internacional · Português</div><h3>BBC News Brasil</h3><p>Reportagens e contexto sobre acontecimentos brasileiros e internacionais.</p><div class="links"><a class="btn primary" href="https://www.bbc.com/portuguese" rel="noopener">Abrir BBC News Brasil ↗</a></div></article>
+    <article class="card"><div class="kicker">Agência internacional</div><h3>Reuters</h3><p>Cobertura internacional e notícias sobre política, negócios e mercados.</p><div class="links"><a class="btn primary" href="https://www.reuters.com/" rel="noopener">Abrir Reuters ↗</a></div></article>
+   </div>
+  </div>
+  <div id="panel-entretenimento" class="tab-panel" role="tabpanel" aria-labelledby="tab-entretenimento">
+   <div class="section-head"><div><h2>🎬 Seus streamings e vídeos</h2><p>Acesse rapidamente seus serviços de entretenimento.</p></div></div>
+   <div class="grid">
+    <article class="card feature"><div class="kicker">Streaming</div><h3>Prime Video</h3><p>Filmes, séries e canais.</p><div class="links"><a class="btn primary" href="https://www.primevideo.com/region/na/storefront" rel="noopener">Abrir Prime Video ↗</a></div></article>
+    <article class="card"><div class="kicker">Streaming</div><h3>Disney+</h3><p>Filmes, séries e produções Disney.</p><div class="links"><a class="btn primary" href="https://www.disneyplus.com/pt-br/home" rel="noopener">Abrir Disney+ ↗</a></div></article>
+    <article class="card"><div class="kicker">Streaming</div><h3>Netflix</h3><p>Filmes, séries e documentários.</p><div class="links"><a class="btn primary" href="https://www.netflix.com/browse" rel="noopener">Abrir Netflix ↗</a></div></article>
+    <article class="card"><div class="kicker">Streaming brasileiro</div><h3>Globoplay</h3><p>Novelas, séries, programas e conteúdos da Globo.</p><div class="links"><a class="btn primary" href="https://globoplay.globo.com/" rel="noopener">Abrir Globoplay ↗</a></div></article>
+    <article class="card"><div class="kicker">Vídeos</div><h3>YouTube</h3><p>Vídeos, canais e transmissões.</p><div class="links"><a class="btn primary" href="https://www.youtube.com/" rel="noopener">Abrir YouTube ↗</a></div></article>
+   </div>
+  </div>
+  <div id="panel-midias-sociais" class="tab-panel" role="tabpanel" aria-labelledby="tab-midias-sociais">
+   <div class="section-head"><div><h2>📱 Suas redes sociais</h2><p>Acesse rapidamente seus perfis e feeds favoritos.</p></div></div>
+   <div class="grid">
+    <article class="card feature"><div class="kicker">Rede social</div><h3>Instagram</h3><p>Fotos, vídeos, Stories e Reels.</p><div class="links"><a class="btn primary" href="https://www.instagram.com/" rel="noopener">Abrir Instagram ↗</a></div></article>
+    <article class="card"><div class="kicker">Rede social</div><h3>Facebook</h3><p>Publicações, grupos, páginas e notícias dos seus contatos.</p><div class="links"><a class="btn primary" href="https://www.facebook.com/" rel="noopener">Abrir Facebook ↗</a></div></article>
+    <article class="card"><div class="kicker">Rede social</div><h3>X</h3><p>Publicações, tendências e atualizações em tempo real.</p><div class="links"><a class="btn primary" href="https://x.com/home" rel="noopener">Abrir X ↗</a></div></article>
+    <article class="card"><div class="kicker">Vídeos curtos</div><h3>TikTok</h3><p>Vídeos curtos, criadores e tendências.</p><div class="links"><a class="btn primary" href="https://www.tiktok.com/pt-BR/" rel="noopener">Abrir TikTok ↗</a></div></article>
+   </div>
+  </div>
+  <div id="legacy-links" hidden>
+  <div class="section-head"><div><h2>📰 Acesso rápido às notícias</h2><p>Sem abas separadas: abra cada fonte diretamente pelo painel.</p></div></div>
+  <div class="grid">
+   <article class="card feature"><h3>🔴⚫ Flamengo no ge</h3><p>Notícias, escalação, bastidores e próximos jogos.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/" target="_blank" rel="noopener">Abrir Flamengo ↗</a></div></article>
+   <article class="card"><h3>⚽ ge · Esportes</h3><p>Principais notícias esportivas.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/" target="_blank" rel="noopener">Abrir ge ↗</a></div></article>
+   <article class="card"><h3>🇧🇷 G1 · Brasil e mundo</h3><p>As principais notícias gerais.</p><div class="links"><a class="btn primary" href="https://g1.globo.com/" target="_blank" rel="noopener">Abrir G1 ↗</a></div></article>
+  </div>
+  <div class="section-head"><div><h2>🌦️ Previsão do tempo</h2><p>Consulte a previsão para Angra dos Reis pelos próximos 15 dias no Climatempo.</p></div></div>
+  <div class="grid">
+   <article class="card feature"><h3>🌦️ Angra dos Reis · RJ</h3><p>Veja a previsão para os próximos 15 dias, com temperaturas, possibilidade de chuva e condições do tempo.</p><div class="links"><a class="btn primary" href="https://www.climatempo.com.br/previsao-do-tempo/15-dias/cidade/769/angradosreis-rj" rel="noopener">Ver previsão de 15 dias ↗</a></div></article>
+  </div>
+  <div class="section-head"><div><h2>🚌 Horários de ônibus · Angra dos Reis</h2><p>Consulte linhas e horários da Viação Senhor do Bonfim.</p></div></div>
+  <div class="grid">
+   <article class="card feature"><h3>🚌 Viação Senhor do Bonfim</h3><p>Consulte as linhas de ônibus de Angra dos Reis e confira os horários disponíveis no Ônibus Online.</p><div class="links"><a class="btn primary" href="https://onibus.online/empresas/viacao-senhor-do-bonfim/" rel="noopener">Consultar linhas e horários ↗</a></div></article>
+  </div>
+  <div class="section-head"><div><h2>⚽ Placar em tempo real · Google</h2><p>Os botões de placar abrem a busca do Google para resultados ao vivo, jogos em andamento e tabelas — sem SofaScore.</p></div></div>
+  <div class="grid">
+   <article class="card"><h3>🌍 Todos os campeonatos</h3><p>Uma página para acompanhar jogos ao vivo de várias ligas e países.</p><div class="links"><a class="btn primary" href="https://www.google.com/search?q=futebol+placar+ao+vivo+hoje" target="_blank" rel="noopener">Todos os placares no Google ↗</a><a class="btn" href="https://www.espn.com.br/futebol/resultados" target="_blank" rel="noopener">Resultados na ESPN ↗</a></div></article>
+  </div>
+  </div>
  </div>
 </main>
-<script>const d=new Date();const fmt=new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});document.getElementById('today').textContent='Hoje: '+fmt.format(d).replace(/^./,c=>c.toLocaleUpperCase())+' · Links diretos para as fontes';
-function mostrarAba(nome){document.querySelectorAll('#painel-abas .tab-panel').forEach(p=>p.classList.toggle('active',p.id==='aba-'+nome));document.querySelectorAll('#painel-abas .tab-button').forEach(b=>b.setAttribute('aria-selected',String(b.getAttribute('onclick')===("mostrarAba('"+nome+"')"))));}
+</div>
+<script>
+// Links externos abrem na mesma aba para evitar bloqueio de pop-ups em celulares e prévias incorporadas.
+document.querySelectorAll('a[target="_blank"]').forEach(link => link.removeAttribute('target'));
+function showPanel(name){
+ document.querySelectorAll('.tab-panel').forEach(panel=>panel.classList.toggle('active',panel.id==='panel-'+name));
+ document.querySelectorAll('.tab-button').forEach(button=>button.setAttribute('aria-selected',String(button.id==='tab-'+name)));
+}
+function organizeQuickLinks(){
+ const legacy=document.getElementById('legacy-links');
+ if(!legacy) return;
+  const cards=[...legacy.querySelectorAll('article.card')];
+ const destinations={esportes:document.getElementById('cards-esportes-links'),'tempo-real':document.getElementById('cards-tempo-real'),noticias:document.getElementById('cards-noticias')};
+ const groups={esportes:[],'tempo-real':[],noticias:[]};
+ cards.forEach(card=>{
+  const title=(card.querySelector('h3')?.textContent||'').toLowerCase();
+  if(title.includes('ge · esportes')||title.includes('fórmula 1')||title.includes('olé')) groups.esportes.push(card);
+    else if(title.includes('placar')||title.includes('brasileirão')||title.includes('champions')||title.includes('premier league')||title.includes('la liga')||title.includes('serie a')||title.includes('bundesliga')||title.includes('campeonatos')) groups['tempo-real'].push(card);
+  else groups.noticias.push(card);
+ });
+ Object.entries(groups).forEach(([name,items])=>items.forEach(card=>destinations[name].appendChild(card)));
+ legacy.hidden=true;
+}
+organizeQuickLinks();
+async function loadG1TopFive(){
+ const box=document.getElementById('g1-top-five');
+ const status=document.getElementById('g1-status');
+ try{
+  const feed='http://g1.globo.com/Rss2/0,,AS0-5597,00.xml';
+  let items=[];
+  try{
+   const response=await fetch('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(feed),{cache:'no-store',signal:AbortSignal.timeout(8000)});
+   if(!response.ok) throw new Error('Conversor indisponível');
+   const data=await response.json();
+   if(data.status!=='ok'||!Array.isArray(data.items)||data.items.length<5) throw new Error('Feed sem cinco manchetes');
+   items=data.items;
+  }catch(firstError){
+   const proxy='https://api.allorigins.win/raw?url='+encodeURIComponent(feed);
+   const response=await fetch(proxy,{cache:'no-store',signal:AbortSignal.timeout(8000)});
+   if(!response.ok) throw new Error('Feed indisponível');
+   const xml=new DOMParser().parseFromString(await response.text(),'text/xml');
+   if(xml.querySelector('parsererror')) throw new Error('Feed inválido');
+   items=[...xml.querySelectorAll('item')].map(item=>({title:item.querySelector('title')?.textContent,link:item.querySelector('link')?.textContent,pubDate:item.querySelector('pubDate')?.textContent}));
+   if(items.length<5) throw new Error('Feed sem cinco manchetes');
+  }
+  box.innerHTML=items.slice(0,5).map((item,index)=>{
+   const title=String(item.title||'Notícia do G1').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+   const link=/^https?:\/\//i.test(item.link||'')?item.link:'https://g1.globo.com/';
+   const safeLink=link.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+   const date=item.pubDate?'Publicado em '+new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short'}).format(new Date(item.pubDate)):'Manchete do feed geral do G1';
+   return '<article class="card"><div class="kicker">G1 · Manchete '+(index+1)+'</div><h3>'+title+'</h3><p>'+date+'</p><div class="links"><a class="btn primary" href="'+safeLink+'" rel="noopener">Ler notícia ↗</a></div></article>';
+  }).join('');
+  status.textContent='Atualizado em '+new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit'}).format(new Date())+' · primeiras 5 do feed geral';
+ }catch(error){
+  const backup=[
+   ['Jovens apostam nas redes e em ações de “vira-voto” na reta final da eleição','https://g1.globo.com/politica/eleicoes/2026/noticia/2026/10/17/jovens-intensificam-mobilizacao-para-conquistar-votos-para-lula-e-flavio-no-segundo-turno.ghtml'],
+   ['“Carreatas” no Roblox têm buzinaço, bloquinho e showmício digital','https://g1.globo.com/tecnologia/noticia/2026/10/17/carreatas-no-roblox-para-flavio-e-lula-tem-buzinaco-bloquinho-e-ate-showmicio-digital-conheca.ghtml'],
+   ['Brasileiros no exterior se mobilizam para reverter abstenção','https://g1.globo.com/mundo/noticia/2026/10/17/brasileiros-no-exterior-se-mobilizam-para-reverter-abstencao-no-2o-turno.ghtml'],
+   ['Mais de 4 mil seções mudaram de local para o 2º turno; veja como consultar','https://g1.globo.com/politica/eleicoes/2026/noticia/2026/10/17/mais-de-43-mil-secoes-eleitorais-mudaram-de-local-para-o-2o-turno-veja-como-consultar-onde-votar.ghtml'],
+   ['Flávio Bolsonaro promete manter fim da escala 6x1 e comenta prisão de aliados no RJ','https://g1.globo.com/politica/eleicoes/2026/noticia/2026/10/16/flavio-bolsonaro-entrevista-globo.ghtml']
+  ];
+  box.innerHTML=backup.map((item,index)=>'<article class="card"><div class="kicker">G1 · Manchete '+(index+1)+'</div><h3>'+item[0]+'</h3><p>Não foi possível atualizar automaticamente agora. Abra a matéria ou confira as manchetes atuais no G1.</p><div class="links"><a class="btn primary" href="'+item[1]+'" rel="noopener">Abrir notícia ↗</a></div></article>').join('');
+  status.textContent='Exibindo links de reserva; a atualização automática não respondeu.';
+ }
+}
+// Prioriza os três destaques com imagem da página inicial do G1; se o site bloquear a leitura externa, mostra três links de reserva.
+async function loadG1TopFive(){
+ const box=document.getElementById('g1-top-five');
+ const status=document.getElementById('g1-status');
+ const escapeHtml=value=>String(value||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ try{
+  const response=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent('https://g1.globo.com/'),{cache:'no-store',signal:AbortSignal.timeout(12000)});
+  if(!response.ok) throw new Error('Página inicial indisponível');
+  const doc=new DOMParser().parseFromString(await response.text(),'text/html');
+  const found=[];
+  for(const img of doc.querySelectorAll('main img, [data-testid] img, article img, a img')){
+   const anchor=img.closest('a[href]');
+   if(!anchor) continue;
+   let url; try{url=new URL(anchor.href,'https://g1.globo.com/')}catch{continue}
+   const title=(anchor.innerText||anchor.getAttribute('aria-label')||img.alt||'').trim().replace(/\s+/g,' ');
+   const image=img.currentSrc||img.src||img.getAttribute('data-src')||img.getAttribute('data-srcset')?.split(' ')[0]||'';
+   if(url.hostname!=='g1.globo.com'||url.pathname==='/'||!title||!image||found.some(x=>x.url===url.href)) continue;
+   if(!/\.(g?html|ghtml)\/?$/i.test(url.pathname)&&!url.pathname.includes('/noticia/')) continue;
+   found.push({title,url:url.href,image});
+   if(found.length===3) break;
+  }
+  if(found.length<3) throw new Error('Não foram encontrados três destaques com foto');
+  box.innerHTML=found.map((item,index)=>'<article class="card"><div class="kicker">G1 · Destaque com foto '+(index+1)+'</div><a href="'+escapeHtml(item.url)+'" rel="noopener"><img class="g1-photo" loading="lazy" src="'+escapeHtml(item.image)+'" alt="'+escapeHtml(item.title)+'"></a><h3>'+escapeHtml(item.title)+'</h3><div class="links"><a class="btn primary" href="'+escapeHtml(item.url)+'" rel="noopener">Ler reportagem ↗</a></div></article>').join('');
+  status.textContent='Destaques com foto carregados da página inicial do G1 às '+new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit'}).format(new Date())+'.';
+ }catch(error){
+  const backup=[
+   ['Jovens apostam nas redes e em ações de “vira-voto” na reta final da eleição','https://g1.globo.com/politica/eleicoes/2026/noticia/2026/10/17/jovens-intensificam-mobilizacao-para-conquistar-votos-para-lula-e-flavio-no-segundo-turno.ghtml'],
+   ['“Carreatas” no Roblox têm buzinaço, bloquinho e showmício digital','https://g1.globo.com/tecnologia/noticia/2026/10/17/carreatas-no-roblox-para-flavio-e-lula-tem-buzinaco-bloquinho-e-ate-showmicio-digital-conheca.ghtml'],
+   ['Brasileiros no exterior se mobilizam para reverter abstenção','https://g1.globo.com/mundo/noticia/2026/10/17/brasileiros-no-exterior-se-mobilizam-para-reverter-abstencao-no-2o-turno.ghtml']
+  ];
+  box.innerHTML=backup.map((item,index)=>'<article class="card"><div class="kicker">G1 · Link de reserva '+(index+1)+'</div><h3>'+escapeHtml(item[0])+'</h3><p>Não foi possível ler os destaques com foto automaticamente. Abra a página inicial do G1 para ver as imagens e manchetes atuais.</p><div class="links"><a class="btn primary" href="'+item[1]+'" rel="noopener">Ler reportagem ↗</a></div></article>').join('');
+  status.textContent='A página do G1 bloqueou a leitura automática; exibindo links de reserva.';
+ }
+}
+loadG1TopFive();
+const d = new Date();
+const fmt = new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+document.getElementById('today').textContent = 'Hoje: ' + fmt.format(d).replace(/^./, c => c.toLocaleUpperCase()) + ' · Links diretos para as fontes';
+
+// Busca manchetes usando dois conversores públicos de RSS, em ordem de preferência.
+const liveBox = document.getElementById('live-news');
+const liveFeeds = [
+ {label:'FLAMENGO · ge e imprensa',url:'https://news.google.com/rss/search?q=Flamengo+site%3Age.globo.com+OR+site%3Ag1.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'},
+ {label:'MAURO CEZAR PEREIRA',url:'https://news.google.com/rss/search?q=Mauro+Cezar+Pereira+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'},
+ {label:'VENÊ CASAGRANDE · BASTIDORES',url:'https://news.google.com/rss/search?q=Ven%C3%AA+Casagrande+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'},
+ {label:'G1 · PRINCIPAIS NOTÍCIAS',url:'https://news.google.com/rss/search?q=site%3Ag1.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'},
+ {label:'ge · ESPORTES',url:'https://news.google.com/rss/search?q=site%3Age.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'}
+];
+function safeText(value){return String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));}
+async function loadLiveNews(){
+ const refreshButton=document.getElementById('refresh-news');
+ const refreshStatus=document.getElementById('refresh-status');
+ if(refreshButton){refreshButton.disabled=true;refreshButton.textContent='Buscando notícias…';}
+ if(refreshStatus)refreshStatus.textContent='Atualizando…';
+ const fallbacks = {
+  'FLAMENGO · ge e imprensa':['Veja as notícias mais recentes do Flamengo','https://news.google.com/search?q=Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'],
+  'MAURO CEZAR PEREIRA':['Análises e opiniões sobre o Flamengo','https://news.google.com/search?q=Mauro+Cezar+Pereira+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'],
+  'VENÊ CASAGRANDE · BASTIDORES':['Informações sobre elenco e bastidores','https://news.google.com/search?q=Ven%C3%AA+Casagrande+Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'],
+  'G1 · PRINCIPAIS NOTÍCIAS':['O que acontece no Brasil e no mundo','https://news.google.com/search?q=site%3Ag1.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419'],
+  'ge · ESPORTES':['As notícias esportivas mais recentes','https://news.google.com/search?q=site%3Age.globo.com&hl=pt-BR&gl=BR&ceid=BR%3Apt-419']
+ };
+ const groups = await Promise.all(liveFeeds.map(async feed=>{
+  try {
+   let items=[];
+   try {
+    const apiUrl='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(feed.url);
+    const apiResponse=await fetch(apiUrl,{signal:AbortSignal.timeout(12000),cache:'no-store'});
+    if(!apiResponse.ok) throw new Error('Conversor RSS indisponível');
+    const data=await apiResponse.json();
+    if(data.status!=='ok'||!Array.isArray(data.items)) throw new Error('RSS sem itens');
+    items=data.items.slice(0,3).map(item=>({title:item.title||'Notícia',link:item.link||'https://news.google.com/',date:item.pubDate||''}));
+   } catch(firstError) {
+    const proxy='https://api.allorigins.win/raw?url='+encodeURIComponent(feed.url);
+    const response=await fetch(proxy,{signal:AbortSignal.timeout(12000),cache:'no-store'});
+    if(!response.ok) throw new Error('Feed indisponível');
+    const xmlText=await response.text();
+    if(!xmlText.includes('<item') && !xmlText.includes(':item')) throw new Error('Resposta não contém notícias');
+    const xml=new DOMParser().parseFromString(xmlText,'text/xml');
+    if(xml.querySelector('parsererror')) throw new Error('Feed inválido');
+    items=[...xml.querySelectorAll('item')].slice(0,3).map(item=>({title:item.querySelector('title')?.textContent||'Notícia',link:item.querySelector('link')?.textContent||'https://news.google.com/',date:item.querySelector('pubDate')?.textContent||''}));
+   }
+   if(!items.length) throw new Error('Feed sem notícias');
+   return {label:feed.label,items};
+  } catch(error) {
+   const fallback=fallbacks[feed.label];
+   return {label:feed.label,items:[{title:fallback[0],link:fallback[1],date:''}]};
+  }
+ }));
+ const cards=groups.flatMap(group=>group.items.map(item=>({ ...item,label:group.label })));
+ liveBox.innerHTML=cards.map(item=>'<article class="card feature"><div class="kicker">'+safeText(item.label)+'</div><h3>'+safeText(item.title)+'</h3><p>'+(item.date?'Publicado em '+safeText(new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short'}).format(new Date(item.date))):'A busca automática desta fonte não respondeu; abra o link para ver as manchetes atualizadas.')+'</p><div class="links"><a class="btn primary" href="'+safeText(item.link)+'" rel="noopener">'+(item.date?'Ler notícia ↗':'Ver notícias ↗')+'</a></div></article>').join('');
+ const updatedAt=new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit'}).format(new Date());
+ const liveCount=cards.filter(item=>item.date).length;
+ if(refreshStatus)refreshStatus.textContent=liveCount?'Busca concluída às '+updatedAt+' · '+liveCount+' manchetes':'Busca automática indisponível';
+ if(!liveCount){
+  liveBox.insertAdjacentHTML('beforeend','<article class="card feature"><div class="kicker">FLAMENGO · ACESSO DIRETO</div><h3>Não foi possível carregar as manchetes automaticamente</h3><p>O navegador pode estar bloqueando os serviços de busca. Estes links abrem as páginas de notícias mais recentes para você escolher a manchete.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/times/flamengo/">Últimas do Flamengo no ge ↗</a><a class="btn" href="https://news.google.com/search?q=Flamengo&hl=pt-BR&gl=BR&ceid=BR%3Apt-419">Pesquisar manchetes do Flamengo ↗</a><a class="btn" href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/">Mauro Cezar ↗</a><a class="btn" href="https://x.com/venecasagrande">Venê Casagrande ↗</a><a class="btn" href="https://g1.globo.com/">G1 ↗</a><a class="btn" href="https://ge.globo.com/">ge ↗</a></div></article>');
+ }
+ if(refreshButton){refreshButton.disabled=false;refreshButton.textContent='↻ Atualizar notícias agora';}
+}
+// Atualiza às 05:30, 12:00 e 17:30 no fuso de Brasília enquanto a página estiver aberta.
+// Também busca manchetes ao abrir e ao voltar para a aba.
+const scheduledTimes = ['05:30','12:00','17:30'];
+let lastRefreshKey = '';
+function checkScheduledRefresh(){
+ const now = new Date();
+ const parts = new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+ const part = key => parts.find(p=>p.type===key)?.value || '';
+ const dayKey = part('year')+'-'+part('month')+'-'+part('day');
+ const clock = new Intl.DateTimeFormat('en-GB',{timeZone:'America/Sao_Paulo',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(now);
+ for(const time of scheduledTimes){
+  const key = dayKey+' '+time;
+  if(clock>=time && lastRefreshKey!==key){lastRefreshKey=key;loadLiveNews();}
+ }
+}
+loadLiveNews();
+checkScheduledRefresh();
+setInterval(checkScheduledRefresh,60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadLiveNews();});
 </script>
 </body>
 </html>
