@@ -1,0 +1,94 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel Diário de Notícias</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 Arial,sans-serif;background:#f3f4f6;color:#202124}
+header{background:#171717;color:white;padding:28px 18px;border-bottom:5px solid #c8102e}
+header,main{padding-left:max(18px,calc((100% - 1000px)/2));padding-right:max(18px,calc((100% - 1000px)/2))}
+h1{margin:0 0 8px;font-size:clamp(25px,5vw,38px)}
+header p{margin:0;color:#eee}
+main{padding-top:20px;padding-bottom:40px}
+h2{margin-top:28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px}
+.card{background:white;border:1px solid #ddd;border-top:4px solid #c8102e;border-radius:12px;padding:18px}
+.card h3{margin:6px 0}
+.card p{color:#555}
+.tag{color:#c8102e;font-weight:bold;font-size:12px}
+a{display:inline-block;background:#c8102e;color:white;text-decoration:none;padding:10px 13px;border-radius:8px;font-weight:bold}
+a:hover{background:#900b20}
+footer{margin-top:30px;color:#666;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>📰 Painel Diário de Notícias</h1>
+<p>Flamengo em primeiro lugar. As principais fontes do Brasil e do esporte.</p>
+<p id="data"></p>
+</header>
+<main>
+<h2>🔴⚫ Flamengo — prioridade máxima</h2>
+<div class="grid">
+<article class="card">
+<div class="tag">NOTÍCIAS DO FLAMENGO</div>
+<h3>Últimas notícias, escalações e bastidores</h3>
+<p>Acompanhe resultados, treinos, contratações, lesões e informações antes dos jogos.</p>
+<a href="https://ge.globo.com/futebol/times/flamengo/">Abrir notícias do Flamengo ↗</a>
+</article>
+<article class="card">
+<div class="tag">ANÁLISE E OPINIÃO</div>
+<h3>Mauro Cezar Pereira</h3>
+<p>Comentários e análises sobre o desempenho do time, treinador, elenco e diretoria.</p>
+<a href="https://www.uol.com.br/esporte/futebol/colunas/mauro-cezar-pereira/">Ler colunas ↗</a>
+</article>
+<article class="card">
+<div class="tag">BASTIDORES</div>
+<h3>Venê Casagrande</h3>
+<p>Informações e apurações sobre contratações, negociações e bastidores do Flamengo.</p>
+<a href="https://x.com/venecasagrande">Ver publicações ↗</a>
+</article>
+<article class="card">
+<div class="tag">FONTE OFICIAL</div>
+<h3>Clube de Regatas do Flamengo</h3>
+<p>Comunicados, notícias e informações oficiais do clube.</p>
+<a href="https://www.flamengo.com.br/noticias">Abrir site oficial ↗</a>
+</article>
+</div>
+
+<h2>🗞️ Brasil, mundo e economia</h2>
+<div class="grid">
+<article class="card">
+<h3>G1 — notícias gerais</h3>
+<p>Política, economia, segurança, serviços e acontecimentos do Brasil.</p>
+<a href="https://g1.globo.com/">Abrir G1 ↗</a>
+</article>
+<article class="card">
+<h3>ge — esportes</h3>
+<p>Futebol brasileiro, campeonatos internacionais e outros esportes.</p>
+<a href="https://ge.globo.com/">Abrir ge ↗</a>
+</article>
+<article class="card">
+<h3>GloboNews</h3>
+<p>Reportagens, entrevistas e análises dos principais assuntos.</p>
+<a href="https://g1.globo.com/globonews/">Abrir GloboNews ↗</a>
+</article>
+<article class="card">
+<h3>G1 — economia</h3>
+<p>Informações sobre emprego, inflação, empresas e seu dinheiro.</p>
+<a href="https://g1.globo.com/economia/">Abrir economia ↗</a>
+</article>
+</div>
+<footer>
+<p>Este painel reúne links para as fontes originais. As notícias são atualizadas nos sites de origem; confira a data e o contexto de cada publicação.</p>
+</footer>
+</main>
+<script>
+document.getElementById('data').textContent =
+'Hoje: '+new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+</script>
+</body>
+</html>
