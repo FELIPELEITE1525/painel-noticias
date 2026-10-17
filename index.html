@@ -28,18 +28,18 @@ main > *:not(#painel-abas) { display:none !important; }
 <section id="painel-abas" aria-label="Painel de notícias">
  <h2>📂 Escolha uma aba</h2><p>Seu painel organizado por assunto.</p>
  <div class="tab-nav" role="tablist" aria-label="Categorias">
-  <button class="tab-button" role="tab" aria-selected="true" onclick="mostrarAba('flamengo')">⚽ Esportes</button>
-  <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('esportes')">⚽ Tempo real</button>
+  <button class="tab-button" role="tab" aria-selected="true" onclick="mostrarAba('esportes')">⚽ Esportes</button>
+  <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('tempo-real')">⏱️ Tempo real</button>
   <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('noticias')">📰 Notícias</button>
   <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('entretenimento')">🎬 Entretenimento</button>
   <button class="tab-button" role="tab" aria-selected="false" onclick="mostrarAba('midias-sociais')">📱 Mídias sociais</button>
  </div>
- <div id="aba-flamengo" class="tab-panel active"><div class="grid">
+ <div id="aba-esportes" class="tab-panel active"><div class="grid">
   <article class="card feature"><h3>⚽ ge · Esportes</h3><p>Principais notícias esportivas do Brasil e do mundo.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/">Abrir ge ↗</a></div></article>
   <article class="card"><h3>🏎️ Grande Prêmio · Fórmula 1</h3><p>Notícias, análises, calendário e cobertura da Fórmula 1.</p><div class="links"><a class="btn primary" href="https://grandepremio.com/br/f1/">Abrir cobertura da F1 ↗</a></div></article>
   <article class="card"><h3>🇦🇷 Olé · Esporte argentino</h3><p>Notícias e cobertura esportiva da Argentina.</p><div class="links"><a class="btn primary" href="https://www.ole.com.ar/">Abrir notícias esportivas da Argentina ↗</a></div></article>
  </div></div>
- <div id="aba-esportes" class="tab-panel"><div class="section-head"><div><h2>⚽ Placares e resultados dos campeonatos</h2><p>Consulte jogos em andamento, resultados da rodada e tabelas atualizadas.</p></div></div><div class="grid">
+ <div id="aba-tempo-real" class="tab-panel"><div class="section-head"><div><h2>⚽ Placares e resultados dos campeonatos</h2><p>Consulte jogos em andamento, resultados da rodada e tabelas atualizadas.</p></div></div><div class="grid">
   <article class="card feature"><h3>🇧🇷 Brasileirão Série A</h3><p>Jogos, placares ao vivo e classificação.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/brasileirao-serie-a/">Jogos e tabela no ge ↗</a><a class="btn" href="https://www.google.com/search?q=Brasileir%C3%A3o+S%C3%A9rie+A+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
   <article class="card"><h3>🇧🇷 Brasileirão Série B</h3><p>Resultados, próximos jogos e tabela.</p><div class="links"><a class="btn primary" href="https://ge.globo.com/futebol/brasileirao-serie-b/">Jogos e tabela no ge ↗</a><a class="btn" href="https://www.google.com/search?q=Brasileir%C3%A3o+S%C3%A9rie+B+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
   <article class="card feature"><h3>🌎 CONMEBOL Libertadores</h3><p>Partidas, resultados e chaveamento.</p><div class="links"><a class="btn primary" href="https://www.conmebol.com/libertadores/">Site oficial ↗</a><a class="btn" href="https://www.google.com/search?q=Libertadores+placar+ao+vivo">Placar ao vivo ↗</a></div></article>
